@@ -1,0 +1,1307 @@
+1730211464224:library(readr)
+1730211491738:data <- read_csv("episode_word_counts.csv")
+1730211498850:View(data)
+1730212221903:View(data)
+1730212231524:library(tidyverse)
+1730212423640:library(readr)
+1730212423649:library(tidyverse)
+1730212423655:data <- read_csv("episode_word_counts.csv")
+1730212425837:long_data <- data %>%
+1730212425840:pivot_longer(cols = -`Episode URL`, names_to = "word", values_to = "count")
+1730212430005:View(long_data)
+1730212458853:counts <- long_data %>%
+1730212458865:group_by(word) %>%
+1730212458870:summarize(total_count = sum(count)) %>%
+1730212458875:ungroup()
+1730212477820:counts <- long_data %>%
+1730212477833:group_by(word) %>%
+1730212477839:summarize(total_count = sum(count)) %>%
+1730212477844:ungroup()
+1730212477895:filtered_counts <- total_counts %>%
+1730212477900:filter(total_count > 1000) %>%
+1730212477905:arrange(desc(total_count))
+1730212497397:View(long_data)
+1730212500884:counts <- long_data %>%
+1730212500888:group_by(word) %>%
+1730212500893:summarize(total_count = sum(count)) %>%
+1730212500898:ungroup()
+1730212500929:filtered_counts <- counts %>%
+1730212500934:filter(count > 1000) %>%
+1730212500939:arrange(desc(count))
+1730212507448:View(counts)
+1730212512718:counts <- long_data %>%
+1730212512722:group_by(word) %>%
+1730212512727:summarize(total_count = sum(count)) %>%
+1730212512732:ungroup()
+1730212512789:filtered_counts <- counts %>%
+1730212512795:filter(total_count > 1000) %>%
+1730212512800:arrange(desc(total_count))
+1730212512816:ggplot(filtered_counts, aes(x = reorder(word, total_count), y = total_count)) +
+1730212512821:geom_bar(stat = "identity") +
+1730212512825:coord_flip() +
+1730212512829:labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+1730212512834:x = "Word",
+1730212512838:y = "Total Count") +
+1730212512842:theme_minimal()
+1730212524365:counts <- long_data %>%
+1730212524374:group_by(word) %>%
+1730212524379:summarize(total_count = sum(count)) %>%
+1730212524384:ungroup()
+1730212524434:filtered_counts <- counts %>%
+1730212524439:filter(total_count > 1000) %>%
+1730212524443:arrange(desc(total_count))
+1730212524461:ggplot(filtered_counts, aes(x = reorder(word, total_count), y = total_count)) +
+1730212524465:geom_bar(stat = "identity") +
+1730212524470:#coord_flip() +
+1730212524474:labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+1730212524479:x = "Word",
+1730212524483:y = "Total Count") +
+1730212524487:theme_minimal()
+1730212539162:counts <- long_data %>%
+1730212539167:group_by(word) %>%
+1730212539171:summarize(total_count = sum(count)) %>%
+1730212539176:ungroup()
+1730212539220:filtered_counts <- counts %>%
+1730212539225:filter(total_count > 1000) %>%
+1730212539231:arrange(asc(total_count))
+1730212545298:counts <- long_data %>%
+1730212545303:group_by(word) %>%
+1730212545308:summarize(total_count = sum(count)) %>%
+1730212545313:ungroup()
+1730212545361:filtered_counts <- counts %>%
+1730212545366:filter(total_count > 1000) %>%
+1730212545372:arrange(aesc(total_count))
+1730212599544:# Summarize the total count for each word across all episodes
+1730212599550:counts <- long_data %>%
+1730212599556:group_by(word) %>%
+1730212599563:summarize(total_count = sum(count)) %>%
+1730212599574:ungroup()
+1730212599631:# Filter for words that appear more than 1000 times
+1730212599636:filtered_counts <- counts %>%
+1730212599642:filter(total_count > 1000) %>%
+1730212599647:arrange(desc(total_count))  # Order by descending count
+1730212599663:# Plot histogram of word counts
+1730212599668:ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+1730212599673:geom_bar(stat = "identity") +
+1730212599677:labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+1730212599682:x = "Word",
+1730212599686:y = "Total Count") +
+1730212599692:theme_minimal() +
+1730212599697:theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+1730212608882:# Summarize the total count for each word across all episodes
+1730212608889:counts <- long_data %>%
+1730212608897:group_by(word) %>%
+1730212608906:summarize(total_count = sum(count)) %>%
+1730212608916:ungroup()
+1730212608972:# Filter for words that appear more than 1000 times
+1730212608984:filtered_counts <- counts %>%
+1730212609007:filter(total_count > 1000) %>%
+1730212609014:arrange(desc(total_count))  # Order by descending count
+1730212609040:# Plot histogram of word counts
+1730212609047:ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+1730212609052:geom_bar(stat = "identity") +
+1730212609057:labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+1730212609062:x = "Word",
+1730212609067:y = "Total Count") +
+1730212609071:theme_minimal() +
+1730212609076:theme(axis.text.x = element_text(angle = 90, hjust = 1))  # Rotate x-axis labels
+1730212654918:counts <- long_data %>%
+1730212654924:group_by(word) %>%
+1730212654928:summarize(total_count = sum(count)) %>%
+1730212654933:ungroup()
+1730212654981:filtered_counts <- counts %>%
+1730212654987:filter(total_count > 1000) %>%
+1730212654993:arrange(desc(total_count))
+1730212655011:ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+1730212655016:geom_bar(stat = "identity") +
+1730212655021:labs(title = "Histogram of words count (Words with > 1000 Occurrences)",
+1730212655025:x = "Word",
+1730212655030:y = "Total Count") +
+1730212655035:theme_minimal() +
+1730212655039:theme(axis.text.x = element_text(angle = 90, hjust = 1))
+1730213062167:numeric_data <- episode_counts %>%
+1730213062180:select(-`Episode URL`)
+1730213076331:numeric_data <- data %>%
+1730213076336:select(-`Episode URL`)
+1730213076379:pca_result <- prcomp(numeric_data, scale. = TRUE)
+1730213077022:pca_data <- as.data.frame(pca_result$x[, 1:2])
+1730213077102:colnames(pca_data) <- c("PC1", "PC2")
+1730213077119:# Add episode labels back to the PCA data for context
+1730213077126:#pca_data$Episode_URL <- episode_counts$`Episode URL`
+1730213077133:# Plot the first two principal components
+1730213077139:ggplot(pca_data, aes(x = PC1, y = PC2)) +
+1730213077144:geom_point( alpha = 0.7) +
+1730213077148:labs(title = "PCA of Episode Word Counts",
+1730213077153:x = "Principal Component 1",
+1730213077158:y = "Principal Component 2") +
+1730213077163:theme_minimal() +
+1730213077168:theme(legend.position = "none")  # Hide legend for readability
+1730213368529:pca_data <- pca_data %>%
+1730213368534:mutate(
+1730213368538:Episode_URL = data$`Episode URL`,
+1730213368547:most_frequent_character = character_data$most_frequent_character
+1730213368551:)
+1730213677303:character_data <- data %>%
+1730213677308:select(`Episode URL`, picard, riker, data, troi, worf, crusher)
+1730213677351:# Identify the most frequent character for each episode
+1730213677357:character_data <- character_data %>%
+1730213677362:rowwise() %>%
+1730213677368:mutate(
+1730213677372:most_frequent_character = names(which.max(c_across(picard:crusher)))
+1730213677377:) %>%
+1730213677381:ungroup()
+1730213677488:# Join this character information with the PCA results
+1730213677497:numeric_data <- data %>% select(-`Episode URL`)  # Remove non-numeric column
+1730213677514:pca_result <- prcomp(numeric_data, scale. = TRUE)  # Perform PCA
+1730213678669:pca_data <- as.data.frame(pca_result$x[, 1:2])  # Extract first two principal components
+1730213678678:colnames(pca_data) <- c("PC1", "PC2")
+1730213678697:# Add episode labels and character information to PCA data
+1730213678719:pca_data <- pca_data %>%
+1730213678746:mutate(
+1730213678753:Episode_URL = data$`Episode URL`,
+1730213678762:most_frequent_character = character_data$most_frequent_character
+1730213678768:)
+1730213678862:# Plot PCA with color coding based on most frequent character
+1730213678868:ggplot(pca_data, aes(x = PC1, y = PC2, color = most_frequent_character)) +
+1730213678875:geom_point(alpha = 0.7) +
+1730213678883:labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+1730213678889:x = "Principal Component 1",
+1730213678894:y = "Principal Component 2",
+1730213678900:color = "Most Frequent Character") +
+1730213678906:theme_minimal()
+1730213750167:character_data <- data %>%
+1730213750175:select(`Episode URL`, picard, riker, data, troi, worf, crusher)
+1730213750221:# Identify the most frequent character for each episode
+1730213750228:character_data <- character_data %>%
+1730213750234:rowwise() %>%
+1730213750241:mutate(
+1730213750246:most_frequent_character = names(which.max(c_across(picard:crusher)))
+1730213750251:) %>%
+1730213750256:ungroup()
+1730213750334:# Join this character information with the PCA results
+1730213750339:# Remove the non-numeric column `Episode URL` to prepare for PCA
+1730213750343:numeric_data <- data %>% select(-`Episode URL`)
+1730213750368:# Perform PCA
+1730213750376:pca_result <- prcomp(numeric_data, scale. = TRUE)  # Scaling ensures all variables contribute equally
+1730213751318:pca_data <- as.data.frame(pca_result$x[, 1:2])  # Extract the first two principal components
+1730213751330:colnames(pca_data) <- c("PC1", "PC2")
+1730213751348:# Add episode labels and character information to PCA data
+1730213751357:# Ensure that we correctly add `Episode URL` and `most_frequent_character`
+1730213751367:pca_data <- pca_data %>%
+1730213751375:mutate(
+1730213751383:Episode_URL = data$`Episode URL`,
+1730213751390:most_frequent_character = character_data$most_frequent_character
+1730213751396:)
+1730213751487:# Plot PCA with color coding based on most frequent character
+1730213751493:ggplot(pca_data, aes(x = PC1, y = PC2, color = most_frequent_character)) +
+1730213751500:geom_point(alpha = 0.7) +
+1730213751505:labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+1730213751510:x = "Principal Component 1",
+1730213751516:y = "Principal Component 2",
+1730213751521:color = "Most Frequent Character") +
+1730213751526:theme_minimal()
+1730245238954:View(long_data)
+1730245265680:View(counts)
+1730245280847:View(filtered_counts)
+1730245314326:View(counts)
+1730245473090:ggplot(pca_data, aes(x = PC1, y = PC2, color = most_frequent_character)) +
+1730245473100:geom_point(size = 3, alpha = 0.7) +
+1730245473104:scale_color_manual(values = c(
+1730245473109:"picard" = "blue",
+1730245473114:"riker" = "red",
+1730245473118:"data" = "green",
+1730245473123:"troi" = "purple",
+1730245473138:"worf" = "orange",
+1730245473142:"crusher" = "brown"
+1730245473146:)) +
+1730245473151:labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+1730245473156:x = "Principal Component 1",
+1730245473160:y = "Principal Component 2",
+1730245473164:color = "Most Frequent Character") +
+1730245473169:theme_minimal()
+1730245847453:pca_data %>% mutate(
+1730245847459:character = ifelse(character %in% c("picard", "riker", "data", "troi", "worf", "crusher"), character, "other"))
+1730245862995:View(pca_data)
+1730246160922:View(numeric_data)
+1730246181637:pca_result
+1730246195999:pc_result[,1:2]
+1730246200725:pca_result[,1:2]
+1730246326833:rotation <- pca_result$rotation
+1730246330515:head(rotation)
+1730246341515:head(rotation[,1:2])
+1730246367115:numeric_data <- data %>%
+1730246367120:select(-`Episode URL`)
+1730246367159:pca_result <- prcomp(numeric_data, scale. = TRUE)
+1730246367495:pca_data <- as.data.frame(pca_result$rotation[,1:2])
+1730246367541:ggplot(pca_data, aes(x = PC1, y = PC2)) +
+1730246367548:geom_point( alpha = 0.7) +
+1730246367557:labs(title = "PCA of Episode Word Counts",
+1730246367567:x = "Principal Component 1",
+1730246367579:y = "Principal Component 2") +
+1730246367586:theme_minimal() +
+1730246367591:theme(legend.position = "none")  # Hide legend for readability
+1730246393760:View(pca_data)
+1730246583502:pca_data %>%  rownames_to_column(var = "word") %>%
+1730246583507:mutate(
+1730246583512:color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), character, "other"))
+1730246655197:pca_data <- pca_data %>%
+1730246655201:rownames_to_column(var = "word") %>%
+1730246655206:mutate(
+1730246655212:color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), word, "other")
+1730246655217:)
+1730246655235:ggplot(pca_data, aes(x = PC1, y = PC2, color = color)) +
+1730246655246:geom_point(size = 3, alpha = 0.7) +
+1730246655251:scale_color_manual(values = c(
+1730246655255:"picard" = "blue",
+1730246655260:"riker" = "red",
+1730246655265:"data" = "green",
+1730246655269:"troi" = "purple",
+1730246655274:"worf" = "orange",
+1730246655278:"crusher" = "brown",
+1730246655283:"other" = "grey"
+1730246655287:)) +
+1730246655292:labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+1730246655296:x = "Principal Component 1",
+1730246655302:y = "Principal Component 2",
+1730246655306:color = "Most Frequent Character") +
+1730246655311:theme_minimal()
+1730246704912:"troi" %in% pca_data$word
+1730246757375:pca_data <- pca_data %>%
+1730246757380:rownames_to_column(var = "word") %>%
+1730246757385:mutate(
+1730246757390:color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), word, "other")
+1730246757395:)
+1730246768033:ggplot(pca_data) +
+1730246768036:# Plot all points in grey (for "other")
+1730246768039:geom_point(data = subset(pca_data, color == "other"), aes(x = PC1, y = PC2), color = "grey", size = 2, alpha = 0.4) +
+1730246768043:# Plot highlighted points with larger size and outline
+1730246768046:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2, color = color), size = 4, alpha = 0.9) +
+1730246768050:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2), color = "black", size = 4.5, shape = 21, stroke = 1.2) +
+1730246768053:scale_color_manual(values = c(
+1730246768056:"picard" = "blue",
+1730246768058:"riker" = "red",
+1730246768061:"data" = "green",
+1730246768065:"troi" = "purple",
+1730246768067:"worf" = "orange",
+1730246768070:"crusher" = "brown",
+1730246768073:"other" = "grey"
+1730246768076:)) +
+1730246768079:labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+1730246768082:x = "Principal Component 1",
+1730246768085:y = "Principal Component 2",
+1730246768088:color = "Most Frequent Character") +
+1730246768091:theme_minimal()
+1730247021526:View(numeric_data)
+1730247443126:library(cluster)
+1730247501951:library(cluster)
+1730247501960:r <- clusGap(numeric_data %>% as.matrix(), function(data, k){
+1730247501964:kmeans(data, k)
+1730247501968:}, K.max = 10)
+1730247575606:plot(r)
+1730247672631:?clusGap
+1730247701388:r$Tab
+1730247705989:r$call
+1730247708826:r$spaceH0
+1730247712750:r$n
+1730247717148:r$B
+1730247719587:r$FUNcluster()
+1730247793685:View(numeric_data)
+1730247815313:View(character_data)
+1730247923191:View(filtered_counts)
+1730247959104:plot(r, main = "clusGap Statistic")
+1730248456018:View(rotation)
+1730248484774:pca_data <- pca_data %>%
+1730248484781:rownames_to_column(var = "word") %>%
+1730248484794:mutate(
+1730248484800:color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), word, "other")
+1730248484810:)
+1730248490073:ggplot(pca_data) +
+1730248490076:geom_point(data = subset(pca_data, color == "other"), aes(x = PC1, y = PC2), color = "grey", size = 2, alpha = 0.4) +
+1730248490079:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2, color = color), size = 4, alpha = 0.9) +
+1730248490082:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2), color = "black", size = 4.5, shape = 21, stroke = 1.2) +
+1730248490086:scale_color_manual(values = c(
+1730248490089:"picard" = "blue",
+1730248490092:"riker" = "red",
+1730248490095:"data" = "green",
+1730248490098:"troi" = "purple",
+1730248490101:"worf" = "orange",
+1730248490104:"crusher" = "brown",
+1730248490107:"other" = "grey"
+1730248490110:)) +
+1730248490113:labs(title = "Rotation Matrix of PCA with Most Frequent Character Highlighted",
+1730248490115:x = "Principal Component 1",
+1730248490118:y = "Principal Component 2",
+1730248490121:color = "Most Frequent Character") +
+1730248490124:theme_minimal()
+1730248505159:numeric_data <- data %>%
+1730248505163:select(-`Episode URL`)
+1730248505197:pca_result <- prcomp(numeric_data, scale. = TRUE)
+1730248505404:pca_data <- as.data.frame(pca_result$rotation[,1:2])
+1730248505421:ggplot(pca_data, aes(x = PC1, y = PC2)) +
+1730248505431:geom_point( alpha = 0.7) +
+1730248505441:labs(title = "Rotation Matrix of PCA",
+1730248505446:x = "Principal Component 1",
+1730248505450:y = "Principal Component 2") +
+1730248505473:theme_minimal() +
+1730248505481:theme(legend.position = "none")  # Hide legend for readability
+1730248508527:pca_data <- pca_data %>%
+1730248508531:rownames_to_column(var = "word") %>%
+1730248508537:mutate(
+1730248508542:color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), word, "other")
+1730248508546:)
+1730248508561:ggplot(pca_data) +
+1730248508566:geom_point(data = subset(pca_data, color == "other"), aes(x = PC1, y = PC2), color = "grey", size = 2, alpha = 0.4) +
+1730248508571:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2, color = color), size = 4, alpha = 0.9) +
+1730248508575:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2), color = "black", size = 4.5, shape = 21, stroke = 1.2) +
+1730248508584:scale_color_manual(values = c(
+1730248508594:"picard" = "blue",
+1730248508601:"riker" = "red",
+1730248508606:"data" = "green",
+1730248508610:"troi" = "purple",
+1730248508615:"worf" = "orange",
+1730248508619:"crusher" = "brown",
+1730248508624:"other" = "grey"
+1730248508629:)) +
+1730248508634:labs(title = "Rotation Matrix of PCA with Most Frequent Character Highlighted",
+1730248508639:x = "Principal Component 1",
+1730248508644:y = "Principal Component 2",
+1730248508650:color = "Most Frequent Character") +
+1730248508654:theme_minimal()
+1730249794394:library(readr)
+1730249794404:library(tidyverse)
+1730249794413:data <- read_csv("episode_word_counts.csv")
+1730249797133:long_data <- data %>%
+1730249797138:pivot_longer(cols = -`Episode URL`, names_to = "word", values_to = "count")
+1730249800015:counts <- long_data %>%
+1730249800029:group_by(word) %>%
+1730249800033:summarize(total_count = sum(count)) %>%
+1730249800038:ungroup()
+1730249800085:filtered_counts <- counts %>%
+1730249800090:filter(total_count > 1000) %>%
+1730249800095:arrange(desc(total_count))
+1730249800120:ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+1730249800124:geom_bar(stat = "identity") +
+1730249800128:labs(title = "Histogram of words count (Words with > 1000 Occurrences)",
+1730249800133:x = "Word",
+1730249800137:y = "Total Count") +
+1730249800141:theme_minimal() +
+1730249800145:theme(axis.text.x = element_text(angle = 90, hjust = 1))
+1730249802851:numeric_data <- data %>%
+1730249802855:select(-`Episode URL`)
+1730249802871:pca_result <- prcomp(numeric_data, scale. = TRUE)
+1730249803166:pca_data <- as.data.frame(pca_result$rotation[,1:2])
+1730249803218:ggplot(pca_data, aes(x = PC1, y = PC2)) +
+1730249803231:geom_point( alpha = 0.7) +
+1730249803241:labs(title = "Rotation Matrix of PCA",
+1730249803246:x = "Principal Component 1",
+1730249803250:y = "Principal Component 2") +
+1730249803255:theme_minimal() +
+1730249803259:theme(legend.position = "none")  # Hide legend for readability
+1730249805162:pca_data <- pca_data %>%
+1730249805166:rownames_to_column(var = "word") %>%
+1730249805170:mutate(
+1730249805174:color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), word, "other")
+1730249805178:)
+1730249805193:ggplot(pca_data) +
+1730249805198:geom_point(data = subset(pca_data, color == "other"), aes(x = PC1, y = PC2), color = "grey", size = 2, alpha = 0.4) +
+1730249805203:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2, color = color), size = 4, alpha = 0.9) +
+1730249805207:geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2), color = "black", size = 4.5, shape = 21, stroke = 1.2) +
+1730249805213:scale_color_manual(values = c(
+1730249805217:"picard" = "blue",
+1730249805223:"riker" = "red",
+1730249805233:"data" = "green",
+1730249805238:"troi" = "purple",
+1730249805242:"worf" = "orange",
+1730249805247:"crusher" = "brown",
+1730249805251:"other" = "grey"
+1730249805255:)) +
+1730249805259:labs(title = "Rotation Matrix of PCA with Most Frequent Character Highlighted",
+1730249805264:x = "Principal Component 1",
+1730249805268:y = "Principal Component 2",
+1730249805272:color = "Most Frequent Character") +
+1730249805276:theme_minimal()
+1730249827550:x <- pca_result$x
+1730249832497:View(x)
+1730249850841:x <- pca_result$x[,1:2]
+1730249883013:kmeans <- kmeans(numeric_data, k)
+1730249887382:kmeans <- kmeans(numeric_data, 6)
+1730249903033:cluster <- kmeans$cluster
+1730249931864:cluster_data <- cbind(x, cluster)
+1730249934403:View(cluster_data)
+1730249944229:cluster_data <- cbind(x, cluster) %>% as.data.frame()
+1730250008343:kmeans <- kmeans(numeric_data, 6)
+1730250008421:x <- pca_result$x[,1:2]
+1730250008432:cluster <- kmeans$cluster
+1730250008445:cluster_data <- cbind(x, cluster) %>% as.data.frame()
+1730250008456:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250008461:geom_point(size = 3, alpha = 0.7) +
+1730250008466:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250008471:x = "Principal Component 1",
+1730250008475:y = "Principal Component 2",
+1730250008480:color = "Cluster") +
+1730250008484:theme_minimal() +
+1730250008488:scale_color_manual(values = c("red", "blue", "green", "purple", "orange", "brown"))  # Customize colors as needed
+1730250034826:kmeans <- kmeans(numeric_data, 6)
+1730250034885:x <- pca_result$x[,1:2]
+1730250034898:cluster <- kmeans$cluster
+1730250034909:cluster_data <- cbind(x, cluster) %>% as.data.frame()
+1730250034921:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250034926:geom_point(size = 3, alpha = 0.7) +
+1730250034931:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250034936:x = "Principal Component 1",
+1730250034940:y = "Principal Component 2",
+1730250034945:color = "Cluster") +
+1730250034949:theme_minimal()
+1730250063043:kmeans <- kmeans(numeric_data, 6)
+1730250063115:x <- pca_result$x[,1:2]
+1730250063128:cluster <- kmeans$cluster
+1730250063142:cluster_data <- cbind(x, factor(cluster)) %>% as.data.frame()
+1730250063154:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250063160:geom_point(size = 3, alpha = 0.7) +
+1730250063166:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250063171:x = "Principal Component 1",
+1730250063177:y = "Principal Component 2",
+1730250063181:color = "Cluster") +
+1730250063186:theme_minimal()
+1730250135545:kmeans <- kmeans(numeric_data, 6)
+1730250135611:x <- pca_result$x[,1:2]
+1730250135626:cluster <- kmeans$cluster
+1730250135636:cluster_data <- cbind(x, factor(cluster)) %>% as.data.frame()
+1730250135650:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250135657:geom_point(size = 3, alpha = 0.7) +
+1730250135663:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250135669:x = "Principal Component 1",
+1730250135681:y = "Principal Component 2",
+1730250135686:color = "Cluster") +
+1730250135691:theme_minimal() +
+1730250135697:scale_color_manual(values = c(
+1730250135701:"1" = "#E41A1C",  # Red
+1730250135706:"2" = "#377EB8",  # Blue
+1730250135711:"3" = "#4DAF4A",  # Green
+1730250135715:"4" = "#984EA3",  # Purple
+1730250135720:"5" = "#FF7F00",  # Orange
+1730250135725:"6" = "#FFFF33"   # Yellow
+1730250135729:))
+1730250187094:kmeans <- kmeans(numeric_data, 6)
+1730250187156:x <- pca_result$x[,1:2]
+1730250187167:cluster <- kmeans$cluster
+1730250187178:cluster_data <- as.data.frame(cbind(x, cluster = factor(kmeans$cluster)))
+1730250187189:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250187195:geom_point(size = 3, alpha = 0.7) +
+1730250187200:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250187205:x = "Principal Component 1",
+1730250187210:y = "Principal Component 2",
+1730250187216:color = "Cluster") +
+1730250187221:theme_minimal() +
+1730250187227:scale_color_manual(values = c(
+1730250187232:"1" = "#E41A1C",  # Red
+1730250187237:"2" = "#377EB8",  # Blue
+1730250187241:"3" = "#4DAF4A",  # Green
+1730250187246:"4" = "#984EA3",  # Purple
+1730250187251:"5" = "#FF7F00",  # Orange
+1730250187257:"6" = "#FFFF33"   # Yellow
+1730250187261:))
+1730250227841:kmeans <- kmeans(numeric_data, 6)
+1730250227902:x <- pca_result$x[,1:2]
+1730250227917:cluster <- kmeans$cluster
+1730250227929:cluster_data <- as.data.frame(cbind(x, cluster = factor(kmeans$cluster)))
+1730250227945:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250227951:geom_point(size = 3, alpha = 0.7) +
+1730250227957:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250227962:x = "Principal Component 1",
+1730250227968:y = "Principal Component 2",
+1730250227974:color = "Cluster") +
+1730250227980:theme_minimal() +
+1730250227986:scale_color_manual(values = c(
+1730250227992:"1" = "#E41A1C",  # Red
+1730250227998:"2" = "#377EB8",  # Blue
+1730250228005:"3" = "#4DAF4A",  # Green
+1730250228010:"4" = "#984EA3",  # Purple
+1730250228015:"5" = "#FF7F00",  # Orange
+1730250228021:"6" = "#FFFF33"   # Yellow
+1730250228026:))
+1730250284100:x <- pca_result$x[, 1:2]
+1730250284113:colnames(x) <- c("PC1", "PC2")  # Rename columns for clarity
+1730250284127:# Combine the PCA results with the cluster assignments, explicitly converting cluster to a factor
+1730250284133:cluster_data <- as.data.frame(x)
+1730250284150:cluster_data$cluster <- factor(kmeans$cluster)  # Explicitly set as a factor
+1730250284166:# Plot the PCA results with clusters as colors, using distinct colors
+1730250284171:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250284176:geom_point(size = 3, alpha = 0.7) +
+1730250284183:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250284189:x = "Principal Component 1",
+1730250284194:y = "Principal Component 2",
+1730250284200:color = "Cluster") +
+1730250284205:theme_minimal() +
+1730250284210:scale_color_manual(values = c(
+1730250284216:"1" = "#E41A1C",  # Red
+1730250284221:"2" = "#377EB8",  # Blue
+1730250284226:"3" = "#4DAF4A",  # Green
+1730250284231:"4" = "#984EA3",  # Purple
+1730250284237:"5" = "#FF7F00",  # Orange
+1730250284242:"6" = "#FFFF33"   # Yellow
+1730250284247:))
+1730250322849:x <- pca_result$x[, 1:2]
+1730250322865:colnames(x) <- c("PC1", "PC2")
+1730250322878:cluster_data <- as.data.frame(x)
+1730250322891:cluster_data$cluster <- factor(kmeans$cluster)
+1730250322907:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250322917:geom_point(size = 3, alpha = 0.7) +
+1730250322922:labs(title = "PCA of Episode Word Counts with K-means Clusters",
+1730250322927:x = "Principal Component 1",
+1730250322931:y = "Principal Component 2",
+1730250322936:color = "Cluster") +
+1730250322941:theme_minimal() +
+1730250322946:scale_color_manual(values = c(
+1730250322950:"1" = "#E41A1C",
+1730250322955:"2" = "#377EB8",
+1730250322960:"3" = "#4DAF4A",
+1730250322965:"4" = "#984EA3",
+1730250322969:"5" = "#FF7F00",
+1730250322973:"6" = "#FFFF33"
+1730250322978:))
+1730250338708:x <- pca_result$x[, 1:2]
+1730250338720:colnames(x) <- c("PC1", "PC2")
+1730250338733:cluster_data <- as.data.frame(x)
+1730250338752:cluster_data$cluster <- factor(kmeans$cluster)
+1730250338768:ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+1730250338772:geom_point(size = 3, alpha = 0.7) +
+1730250338777:labs(title = "2D PCA of Episode Word Counts with 6 Clusters",
+1730250338783:x = "Principal Component 1",
+1730250338788:y = "Principal Component 2",
+1730250338793:color = "Cluster") +
+1730250338798:theme_minimal() +
+1730250338803:scale_color_manual(values = c(
+1730250338808:"1" = "#E41A1C",
+1730250338813:"2" = "#377EB8",
+1730250338823:"3" = "#4DAF4A",
+1730250338828:"4" = "#984EA3",
+1730250338833:"5" = "#FF7F00",
+1730250338838:"6" = "#FFFF33"
+1730250338844:))
+1730251550746:View(numeric_data)
+1730251570608:View(data)
+1730252012656:label = rbind(
+1730252012662:data.frame(
+1730252012669:Production = 101:126, Season = 1),
+1730252012675:data.frame(
+1730252012684:Production = 127:148, Season = 2),
+1730252012690:data.frame(
+1730252012696:Production = 149:174, Season = 3),
+1730252012703:data.frame(
+1730252012709:Production = 149:174, Season = 3),
+1730252012716:data.frame(
+1730252012721:Production = 175:200, Season = 4),
+1730252012728:data.frame(
+1730252012735:Production = 201:226, Season = 5),
+1730252012741:data.frame(
+1730252012746:Production = 227:252, Season = 6),
+1730252012751:data.frame(
+1730252012757:Production = 253:277, Season = 7))
+1730252024927:View(cluster_data)
+1730252033816:View(data)
+1730252156602:std_devs <- data %>%
+1730252156606:select(-`Episode URL`) %>%  # Remove the Episode URL column
+1730252156610:summarise(across(everything(), sd, na.rm = TRUE))  # Calculate standard deviation for each column
+1730252157158:# Convert the result to a data frame and reshape for easier sorting
+1730252157163:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730252157196:# Sort by standard deviation in descending order and select the top columns
+1730252157201:# Assuming GBM can handle a maximum of 3000 columns (adjust this number as necessary)
+1730252157208:top_columns <- std_devs_long %>%
+1730252157213:arrange(desc(StdDev)) %>%
+1730252157219:slice(1:3000) %>%  # Adjust 3000 to your GBM's max handling capacity
+1730252157224:pull(Column)  # Get the names of the top columns
+1730252157241:# Select only these top columns in the original data
+1730252157246:data_top_columns <- data %>%
+1730252157250:select(all_of(top_columns))
+1730252164114:View(data_top_columns)
+1730252279180:library(gbm)
+1730252710783:install.packages("gbm")
+1730252738717:library(gbm)
+1730252815000:View(data_top_columns)
+1730252896656:library(pROC)
+1730252907566:label = rbind(
+1730252907571:data.frame(
+1730252907575:Production = 101:126, Season = 1),
+1730252907579:data.frame(
+1730252907583:Production = 127:148, Season = 2),
+1730252907588:data.frame(
+1730252907594:Production = 149:174, Season = 3),
+1730252907600:data.frame(
+1730252907607:Production = 149:174, Season = 3),
+1730252907615:data.frame(
+1730252907622:Production = 175:200, Season = 4),
+1730252907629:data.frame(
+1730252907643:Production = 201:226, Season = 5),
+1730252907651:data.frame(
+1730252907658:Production = 227:252, Season = 6),
+1730252907665:data.frame(
+1730252907671:Production = 253:277, Season = 7))
+1730252907688:std_devs <- data %>%
+1730252907697:select(-`Episode URL`) %>%
+1730252907702:summarise(across(everything(), sd, na.rm = TRUE))
+1730252908060:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730252908112:top_columns <- std_devs_long %>%
+1730252908120:arrange(desc(StdDev)) %>%
+1730252908128:slice(1:500) %>%
+1730252908135:pull(Column)
+1730252908152:data_top_columns <- data %>%
+1730252908159:select(all_of(top_columns))
+1730252908179:work_d <- cbind(Season = label$Season, data_top_columns)
+1730252929381:View(data)
+1730253146933:library(stringr)
+1730253331694:data1 <- data %>%
+1730253331699:mutate(
+1730253331703:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253331707:) %>%
+1730253331711:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253331796:data2 <- data1 %>%
+1730253331808:left_join(label %>% select(epi, season), by = c("EpisodeNumber" = "Production")) %>%
+1730253331812:select(-EpisodeNumber)
+1730253342722:data2 <- data1 %>%
+1730253342726:left_join(label %>% select(epi, season), by = c("EpisodeNumber" = "Production"))
+1730253357079:data1 <- data %>%
+1730253357082:mutate(
+1730253357086:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253357098:) %>%
+1730253357103:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253357155:data2 <- data1 %>%
+1730253357158:left_join(label , by = c("EpisodeNumber" = "Production"))
+1730253361387:View(data2)
+1730253427128:data2$EpisodeNumber
+1730253450136:data2$Season
+1730253480567:label = rbind(
+1730253480572:data.frame(
+1730253480577:Production = 101:126, Season = 1),
+1730253480582:data.frame(
+1730253480587:Production = 127:148, Season = 2),
+1730253480592:data.frame(
+1730253480597:Production = 149:174, Season = 3),
+1730253480602:data.frame(
+1730253480607:Production = 149:174, Season = 3),
+1730253480612:data.frame(
+1730253480617:Production = 175:200, Season = 4),
+1730253480623:data.frame(
+1730253480635:Production = 201:226, Season = 5),
+1730253480641:data.frame(
+1730253480647:Production = 227:252, Season = 6),
+1730253480652:data.frame(
+1730253480657:Production = 253:277, Season = 7))
+1730253480671:std_devs <- data %>%
+1730253480676:select(-`Episode URL`) %>%
+1730253480681:summarise(across(everything(), sd, na.rm = TRUE))
+1730253480975:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730253481009:top_columns <- std_devs_long %>%
+1730253481014:arrange(desc(StdDev)) %>%
+1730253481018:slice(1:500) %>%
+1730253481024:pull(Column)
+1730253481037:data_top_columns <- data %>%
+1730253481040:select(all_of(top_columns))
+1730253481059:data1 <- data %>%
+1730253481063:mutate(
+1730253481067:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253481071:) %>%
+1730253481076:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253481125:label <- data1 %>%
+1730253481131:left_join(label , by = c("EpisodeNumber" = "Production")) %>%
+1730253481137:select(Season)
+1730253481169:work_d <- cbind(Season = label$Season, data_top_columns)
+1730253496080:nrow(label)
+1730253508184:label <- data1 %>%
+1730253508188:left_join(label , by = c("EpisodeNumber" = "Production")) %>%
+1730253508192:select(Season)
+1730253533341:label = rbind(
+1730253533345:data.frame(
+1730253533351:Production = 101:126, Season = 1),
+1730253533356:data.frame(
+1730253533361:Production = 127:148, Season = 2),
+1730253533366:data.frame(
+1730253533372:Production = 149:174, Season = 3),
+1730253533377:data.frame(
+1730253533383:Production = 149:174, Season = 3),
+1730253533389:data.frame(
+1730253533396:Production = 175:200, Season = 4),
+1730253533409:data.frame(
+1730253533415:Production = 201:226, Season = 5),
+1730253533421:data.frame(
+1730253533428:Production = 227:252, Season = 6),
+1730253533434:data.frame(
+1730253533439:Production = 253:277, Season = 7))
+1730253533458:std_devs <- data %>%
+1730253533464:select(-`Episode URL`) %>%
+1730253533470:summarise(across(everything(), sd, na.rm = TRUE))
+1730253533813:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730253533862:top_columns <- std_devs_long %>%
+1730253533872:arrange(desc(StdDev)) %>%
+1730253533880:slice(1:500) %>%
+1730253533889:pull(Column)
+1730253533917:data_top_columns <- data %>%
+1730253533928:select(all_of(top_columns))
+1730253533965:data1 <- data %>%
+1730253533974:mutate(
+1730253533982:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253533988:) %>%
+1730253533994:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253534060:label_data <- data1 %>%
+1730253534065:left_join(label , by = c("EpisodeNumber" = "Production")) %>%
+1730253534070:select(Season)
+1730253534108:work_d <- cbind(Season = label$Season, data_top_columns)
+1730253543574:label = rbind(
+1730253543579:data.frame(
+1730253543584:Production = 101:126, Season = 1),
+1730253543590:data.frame(
+1730253543595:Production = 127:148, Season = 2),
+1730253543601:data.frame(
+1730253543613:Production = 149:174, Season = 3),
+1730253543628:data.frame(
+1730253543634:Production = 149:174, Season = 3),
+1730253543639:data.frame(
+1730253543645:Production = 175:200, Season = 4),
+1730253543650:data.frame(
+1730253543655:Production = 201:226, Season = 5),
+1730253543660:data.frame(
+1730253543664:Production = 227:252, Season = 6),
+1730253543669:data.frame(
+1730253543673:Production = 253:277, Season = 7))
+1730253543687:std_devs <- data %>%
+1730253543691:select(-`Episode URL`) %>%
+1730253543696:summarise(across(everything(), sd, na.rm = TRUE))
+1730253544016:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730253544051:top_columns <- std_devs_long %>%
+1730253544056:arrange(desc(StdDev)) %>%
+1730253544061:slice(1:500) %>%
+1730253544066:pull(Column)
+1730253544081:data_top_columns <- data %>%
+1730253544087:select(all_of(top_columns))
+1730253544111:data1 <- data %>%
+1730253544115:mutate(
+1730253544120:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253544127:) %>%
+1730253544135:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253544194:label_data <- data1 %>%
+1730253544199:left_join(label , by = c("EpisodeNumber" = "Production")) %>%
+1730253544205:select(Season)
+1730253544239:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730253562970:label = rbind(
+1730253562975:data.frame(
+1730253562979:Production = 101:126, Season = 1),
+1730253562984:data.frame(
+1730253562989:Production = 127:148, Season = 2),
+1730253562993:data.frame(
+1730253562998:Production = 149:174, Season = 3),
+1730253563002:data.frame(
+1730253563006:Production = 149:174, Season = 3),
+1730253563010:data.frame(
+1730253563015:Production = 175:200, Season = 4),
+1730253563019:data.frame(
+1730253563023:Production = 201:226, Season = 5),
+1730253563029:data.frame(
+1730253563039:Production = 227:252, Season = 6),
+1730253563044:data.frame(
+1730253563048:Production = 253:277, Season = 7))
+1730253563061:std_devs <- data %>%
+1730253563066:select(-`Episode URL`) %>%
+1730253563070:summarise(across(everything(), sd, na.rm = TRUE))
+1730253563403:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730253563463:top_columns <- std_devs_long %>%
+1730253563470:arrange(desc(StdDev)) %>%
+1730253563477:slice(1:500) %>%
+1730253563484:pull(Column)
+1730253563498:data_top_columns <- data %>%
+1730253563504:select(all_of(top_columns))
+1730253563533:data1 <- data %>%
+1730253563539:mutate(
+1730253563545:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253563551:) %>%
+1730253563557:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253563607:label_data <- data1 %>%
+1730253563612:right_join(label , by = c("EpisodeNumber" = "Production")) %>%
+1730253563617:select(Season)
+1730253563651:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730253656819:data1 <- data %>%
+1730253656822:mutate(
+1730253656825:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253656829:) %>%
+1730253656832:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253656902:label_data <- data1 %>%
+1730253656905:left_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730253656909:select(-EpisodeNumber)
+1730253711202:label = rbind(
+1730253711221:data.frame(
+1730253711229:Production = 101:126, Season = 1),
+1730253711237:data.frame(
+1730253711248:Production = 127:148, Season = 2),
+1730253711255:data.frame(
+1730253711262:Production = 149:174, Season = 3),
+1730253711270:data.frame(
+1730253711276:Production = 149:174, Season = 3),
+1730253711282:data.frame(
+1730253711289:Production = 175:200, Season = 4),
+1730253711296:data.frame(
+1730253711302:Production = 201:226, Season = 5),
+1730253711308:data.frame(
+1730253711313:Production = 227:252, Season = 6),
+1730253711319:data.frame(
+1730253711325:Production = 253:277, Season = 7))
+1730253711340:std_devs <- data %>%
+1730253711348:select(-`Episode URL`) %>%
+1730253711356:summarise(across(everything(), sd, na.rm = TRUE))
+1730253711928:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730253711967:top_columns <- std_devs_long %>%
+1730253711975:arrange(desc(StdDev)) %>%
+1730253711987:slice(1:500) %>%
+1730253711994:pull(Column)
+1730253712014:data_top_columns <- data %>%
+1730253712022:select(all_of(top_columns))
+1730253712059:data1 <- data %>%
+1730253712067:mutate(
+1730253712074:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730253712081:) %>%
+1730253712088:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730253712138:label_data <- data1 %>%
+1730253712143:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730253712148:select(-EpisodeNumber)
+1730253712189:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730253808046:View(label_data)
+1730253829383:label_data <- data1 %>%
+1730253829388:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730253829393:select(Season)
+1730253832097:View(label_data)
+1730253841830:View(data)
+1730253876473:label_data <- data1 %>%
+1730253876477:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730253876480:select(Season, `Episode URL`)
+1730253879531:View(label_data)
+1730254002332:label_data <- data1 %>%
+1730254002337:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730254002341:select(Season, `Episode URL`) %>% distinct()
+1730254005102:label = rbind(
+1730254005108:data.frame(
+1730254005112:Production = 101:126, Season = 1),
+1730254005117:data.frame(
+1730254005122:Production = 127:148, Season = 2),
+1730254005127:data.frame(
+1730254005132:Production = 149:174, Season = 3),
+1730254005137:data.frame(
+1730254005142:Production = 149:174, Season = 3),
+1730254005146:data.frame(
+1730254005151:Production = 175:200, Season = 4),
+1730254005158:data.frame(
+1730254005170:Production = 201:226, Season = 5),
+1730254005176:data.frame(
+1730254005181:Production = 227:252, Season = 6),
+1730254005186:data.frame(
+1730254005192:Production = 253:277, Season = 7))
+1730254005212:std_devs <- data %>%
+1730254005219:select(-`Episode URL`) %>%
+1730254005225:summarise(across(everything(), sd, na.rm = TRUE))
+1730254005602:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730254005649:top_columns <- std_devs_long %>%
+1730254005653:arrange(desc(StdDev)) %>%
+1730254005658:slice(1:500) %>%
+1730254005663:pull(Column)
+1730254005676:data_top_columns <- data %>%
+1730254005680:select(all_of(top_columns))
+1730254005700:data1 <- data %>%
+1730254005704:mutate(
+1730254005709:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730254005713:) %>%
+1730254005717:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730254005777:label_data <- data1 %>%
+1730254005782:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730254005786:select(Season, `Episode URL`) %>% distinct()
+1730254005821:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730254005834:set.seed(123)
+1730254005845:model_gbm <- gbm(
+1730254005849:formula = Season ~ .,
+1730254005853:data = data_top_columns,
+1730254005857:distribution = "multinomial",
+1730254005862:n.trees = 100,
+1730254005867:interaction.depth = 3,
+1730254005871:n.minobsinnode = 10,
+1730254005875:shrinkage = 0.1,
+1730254005879:verbose = FALSE
+1730254005883:)
+1730254023340:label = rbind(
+1730254023346:data.frame(
+1730254023351:Production = 101:126, Season = 1),
+1730254023356:data.frame(
+1730254023361:Production = 127:148, Season = 2),
+1730254023366:data.frame(
+1730254023371:Production = 149:174, Season = 3),
+1730254023377:data.frame(
+1730254023382:Production = 149:174, Season = 3),
+1730254023387:data.frame(
+1730254023399:Production = 175:200, Season = 4),
+1730254023405:data.frame(
+1730254023411:Production = 201:226, Season = 5),
+1730254023416:data.frame(
+1730254023422:Production = 227:252, Season = 6),
+1730254023427:data.frame(
+1730254023433:Production = 253:277, Season = 7))
+1730254023454:std_devs <- data %>%
+1730254023460:select(-`Episode URL`) %>%
+1730254023466:summarise(across(everything(), sd, na.rm = TRUE))
+1730254023858:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730254023893:top_columns <- std_devs_long %>%
+1730254023897:arrange(desc(StdDev)) %>%
+1730254023902:slice(1:500) %>%
+1730254023907:pull(Column)
+1730254023921:data_top_columns <- data %>%
+1730254023926:select(all_of(top_columns))
+1730254023951:data1 <- data %>%
+1730254023956:mutate(
+1730254023961:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730254023966:) %>%
+1730254023972:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730254024050:label_data <- data1 %>%
+1730254024062:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730254024069:select(Season, `Episode URL`) %>% distinct()
+1730254024114:work_d <- cbind(label_data$Season, data_top_columns)
+1730254024127:set.seed(123)
+1730254024137:model_gbm <- gbm(
+1730254024158:formula = Season ~ .,
+1730254024166:data = data_top_columns,
+1730254024177:distribution = "multinomial",
+1730254024184:n.trees = 100,
+1730254024189:interaction.depth = 3,
+1730254024194:n.minobsinnode = 10,
+1730254024203:shrinkage = 0.1,
+1730254024208:verbose = FALSE
+1730254024213:)
+1730254043684:model_gbm <- gbm(
+1730254043687:data = work_d
+1730254043690:formula = Season ~ .,
+1730254048092:model_gbm <- gbm(
+1730254048095:data = work_d,
+1730254048099:formula = Season ~ .,
+1730254048114:data = data_top_columns,
+1730254048117:distribution = "multinomial",
+1730254048121:n.trees = 100,
+1730254048125:interaction.depth = 3,
+1730254048129:n.minobsinnode = 10,
+1730254048133:shrinkage = 0.1,
+1730254048138:verbose = FALSE
+1730254048147:)
+1730254068905:model_gbm <- gbm(
+1730254068908:data = work_d,
+1730254068912:formula = Season ~ .,
+1730254068915:distribution = "multinomial",
+1730254068919:n.trees = 100,
+1730254068922:interaction.depth = 3,
+1730254068926:n.minobsinnode = 10,
+1730254068930:shrinkage = 0.1,
+1730254068933:verbose = FALSE
+1730254068936:)
+1730254079504:View(work_d)
+1730254090324:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730254090843:set.seed(123)
+1730254091297:model_gbm <- gbm(
+1730254091300:data = work_d,
+1730254091303:formula = Season ~ .,
+1730254091306:distribution = "multinomial",
+1730254091310:n.trees = 100,
+1730254091313:interaction.depth = 3,
+1730254091316:n.minobsinnode = 10,
+1730254091319:shrinkage = 0.1,
+1730254091322:verbose = FALSE
+1730254091326:)
+1730254165162:model_gbm$initF
+1730254189965:model_gbm$fit
+1730254202279:summary(model_gbm)
+1730254402452:label = rbind(
+1730254402456:data.frame(
+1730254402461:Production = 101:126, Season = 1),
+1730254402466:data.frame(
+1730254402471:Production = 127:148, Season = 2),
+1730254402475:data.frame(
+1730254402480:Production = 149:174, Season = 3),
+1730254402485:data.frame(
+1730254402490:Production = 175:200, Season = 4),
+1730254402495:data.frame(
+1730254402499:Production = 201:226, Season = 5),
+1730254402506:data.frame(
+1730254402517:Production = 227:252, Season = 6),
+1730254402522:data.frame(
+1730254402527:Production = 253:277, Season = 7))
+1730254402542:std_devs <- data %>%
+1730254402547:select(-`Episode URL`) %>%
+1730254402551:summarise(across(everything(), sd, na.rm = TRUE))
+1730254402915:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730254402955:top_columns <- std_devs_long %>%
+1730254402960:arrange(desc(StdDev)) %>%
+1730254402964:slice(1:500) %>%
+1730254402970:pull(Column)
+1730254402985:data_top_columns <- data %>%
+1730254402992:select(all_of(top_columns))
+1730254403016:data1 <- data %>%
+1730254403021:mutate(
+1730254403027:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730254403032:) %>%
+1730254403038:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730254403093:label_data <- data1 %>%
+1730254403098:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730254403104:select(Season) %>% distinct()
+1730254403157:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730254419985:label = rbind(
+1730254419990:data.frame(
+1730254419997:Production = 101:126, Season = 1),
+1730254420002:data.frame(
+1730254420007:Production = 127:148, Season = 2),
+1730254420011:data.frame(
+1730254420016:Production = 149:174, Season = 3),
+1730254420022:data.frame(
+1730254420028:Production = 175:200, Season = 4),
+1730254420039:data.frame(
+1730254420043:Production = 201:226, Season = 5),
+1730254420048:data.frame(
+1730254420053:Production = 227:252, Season = 6),
+1730254420057:data.frame(
+1730254420062:Production = 253:277, Season = 7))
+1730254420075:std_devs <- data %>%
+1730254420080:select(-`Episode URL`) %>%
+1730254420084:summarise(across(everything(), sd, na.rm = TRUE))
+1730254420458:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730254420495:top_columns <- std_devs_long %>%
+1730254420501:arrange(desc(StdDev)) %>%
+1730254420508:slice(1:500) %>%
+1730254420515:pull(Column)
+1730254420531:data_top_columns <- data %>%
+1730254420536:select(all_of(top_columns))
+1730254420564:data1 <- data %>%
+1730254420569:mutate(
+1730254420575:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730254420581:) %>%
+1730254420587:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730254420649:label_data <- data1 %>%
+1730254420653:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730254420659:select(Season)
+1730254420695:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730254420709:set.seed(123)
+1730254420718:model_gbm <- gbm(
+1730254420723:data = work_d,
+1730254420728:formula = Season ~ .,
+1730254420734:distribution = "multinomial",
+1730254420744:n.trees = 100,
+1730254420750:interaction.depth = 3,
+1730254420757:n.minobsinnode = 10,
+1730254420762:shrinkage = 0.1,
+1730254420767:verbose = FALSE
+1730254420772:)
+1730254422158:summary(model_gbm)
+1730254499552:# Assuming `data1_with_season` contains your main data with the `Season` column
+1730254499557:# Label episodes as "first_half" or "second_half" based on the Season
+1730254499562:data1_with_season <- data1_with_season %>%
+1730254499568:mutate(Half = ifelse(Season %in% c(1, 2, 3), "first_half", "second_half"))
+1730254533930:# Assuming `data1_with_season` contains your main data with the `Season` column
+1730254533936:# Label episodes as "first_half" or "second_half" based on the Season
+1730254533941:work_d <- work_d %>%
+1730254533946:mutate(Half = ifelse(Season %in% c(1, 2, 3), "first_half", "second_half"))
+1730254533965:# Convert the label to a binary factor for classification
+1730254533970:work_d$Half <- factor(data1_with_season$Half, levels = c("first_half", "second_half"))
+1730254539005:# Assuming `data1_with_season` contains your main data with the `Season` column
+1730254539011:# Label episodes as "first_half" or "second_half" based on the Season
+1730254539016:work_d <- work_d %>%
+1730254539020:mutate(Half = ifelse(Season %in% c(1, 2, 3), "first_half", "second_half"))
+1730254539045:# Convert the label to a binary factor for classification
+1730254539051:work_d$Half <- factor(work_d$Half, levels = c("first_half", "second_half"))
+1730254539064:# Separate the features and target variable
+1730254539069:features <- work_d %>% select(-Season, -Half)  # Exclude Season and Half for training
+1730254539082:target <- work_d$Half
+1730254539094:# Train a GBM model for binary classification (first half vs. second half)
+1730254539099:set.seed(123)
+1730254539109:model_gbm <- gbm(
+1730254539113:formula = Half ~ .,
+1730254539117:data = work_d,
+1730254539122:distribution = "bernoulli",  # Binary classification
+1730254539126:n.trees = 100,               # Number of boosting iterations
+1730254539130:interaction.depth = 3,       # Tree depth
+1730254539135:n.minobsinnode = 10,         # Minimum number of observations in nodes
+1730254539140:shrinkage = 0.1,             # Learning rate
+1730254539145:verbose = FALSE
+1730254539150:)
+1730254557983:View(work_d)
+1730254570749:work_d$Half
+1730254733432:work_d <- work_d %>%
+1730254733437:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1))
+1730254733455:# Convert the label to a binary factor for classification
+1730254733466:work_d$Half <- factor(work_d$Half, levels = c(0, 1))  # 0 for first_half, 1 for second_half
+1730254733480:# Separate the features and target variable
+1730254733485:features <- work_d %>% select(-Season, -Half)  # Exclude Season and Half for training
+1730254733581:target <- work_d$Half
+1730254733593:# Train a GBM model for binary classification (first half vs. second half)
+1730254733597:set.seed(123)
+1730254733607:model_gbm <- gbm(
+1730254733612:formula = Half ~ .,
+1730254733617:data = work_d,
+1730254733621:distribution = "bernoulli",  # Binary classification
+1730254733625:n.trees = 100,               # Number of boosting iterations
+1730254733630:interaction.depth = 3,       # Tree depth
+1730254733637:n.minobsinnode = 10,         # Minimum number of observations in nodes
+1730254733665:shrinkage = 0.1,             # Learning rate
+1730254733672:verbose = FALSE
+1730254733677:)
+1730254752857:work_d$Half
+1730254838386:work_d <- work_d %>%
+1730254838391:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1))  # Keep as numeric 0 and 1
+1730254838415:# Separate the features and target variable
+1730254838420:features <- work_d %>% select(-Season, -Half)  # Exclude Season and Half for training
+1730254838435:target <- work_d$Half
+1730254838448:# Train a GBM model for binary classification (first half vs. second half)
+1730254838453:set.seed(123)
+1730254838463:model_gbm <- gbm(
+1730254838468:formula = Half ~ .,
+1730254838473:data = work_d,
+1730254838478:distribution = "bernoulli",  # Binary classification
+1730254838484:n.trees = 100,               # Number of boosting iterations
+1730254838488:interaction.depth = 3,       # Tree depth
+1730254838493:n.minobsinnode = 10,         # Minimum number of observations in nodes
+1730254838497:shrinkage = 0.1,             # Learning rate
+1730254838501:verbose = FALSE
+1730254838507:)
+1730254838837:# Predict probabilities for the "second_half" class (1)
+1730254838842:predicted_probabilities <- predict(model_gbm, newdata = work_d, n.trees = 100, type = "response")
+1730254838903:# Calculate the ROC curve and AUC
+1730254838910:roc_curve <- roc(work_d$Half, predicted_probabilities)
+1730254838972:auc_value <- auc(roc_curve)
+1730254839007:# Plot the ROC curve
+1730254839015:plot(roc_curve, main = "ROC Curve for First Half vs. Second Half Classification", col = "blue")
+1730254839040:legend("bottomright", legend = paste("AUC =", round(auc_value, 3)), col = "blue", lwd = 2)
+1730254839060:# Print the AUC value
+1730254839073:print(paste("Area Under the Curve (AUC):", round(auc_value, 3)))
+1730254924985:work_d <- work_d %>%
+1730254924990:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1))  # Keep as numeric 0 and 1
+1730254925010:# Separate the features and target variable
+1730254925015:features <- work_d %>% select(-Season, -Half)  # Exclude Season and Half for training
+1730254925027:target <- work_d$Half
+1730254925048:# Train a GBM model for binary classification (first half vs. second half)
+1730254925053:set.seed(123)
+1730254925063:model_gbm <- gbm(
+1730254925068:formula = Half ~ .,
+1730254925073:data = work_d,
+1730254925078:distribution = "bernoulli",  # Binary classification
+1730254925083:n.trees = 30,               # Number of boosting iterations
+1730254925087:interaction.depth = 3,       # Tree depth
+1730254925092:n.minobsinnode = 10,         # Minimum number of observations in nodes
+1730254925097:shrinkage = 0.1,             # Learning rate
+1730254925102:verbose = FALSE
+1730254925107:)
+1730254925333:# Predict probabilities for the "second_half" class (1)
+1730254925343:predicted_probabilities <- predict(model_gbm, newdata = work_d, n.trees = 100, type = "response")
+1730254925382:# Calculate the ROC curve and AUC
+1730254925387:roc_curve <- roc(work_d$Half, predicted_probabilities)
+1730254925413:auc_value <- auc(roc_curve)
+1730254925439:# Plot the ROC curve
+1730254925444:plot(roc_curve, main = "ROC Curve for First Half vs. Second Half Classification", col = "blue")
+1730254925460:legend("bottomright", legend = paste("AUC =", round(auc_value, 3)), col = "blue", lwd = 2)
+1730254925477:# Print the AUC value
+1730254925484:print(paste("Area Under the Curve (AUC):", round(auc_value, 3)))
+1730254962187:work_d <- work_d %>%
+1730254962192:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1))  # Keep as numeric 0 and 1
+1730254962227:# Separate the features and target variable
+1730254962233:features <- work_d %>% select(-Season, -Half)  # Exclude Season and Half for training
+1730254962248:target <- work_d$Half
+1730254962261:# Train a GBM model for binary classification (first half vs. second half)
+1730254962265:set.seed(123)
+1730254962275:model_gbm <- gbm(
+1730254962279:formula = Half ~ .,
+1730254962283:data = work_d,
+1730254962287:distribution = "bernoulli",  # Binary classification
+1730254962291:n.trees = 500,               # Number of boosting iterations
+1730254962296:interaction.depth = 3,       # Tree depth
+1730254962300:n.minobsinnode = 10,         # Minimum number of observations in nodes
+1730254962304:shrinkage = 0.01,             # Learning rate
+1730254962308:verbose = FALSE
+1730254962312:)
+1730254963311:# Predict probabilities for the "second_half" class (1)
+1730254963317:predicted_probabilities <- predict(model_gbm, newdata = work_d, n.trees = 100, type = "response")
+1730254963355:# Calculate the ROC curve and AUC
+1730254963361:roc_curve <- roc(work_d$Half, predicted_probabilities)
+1730254963389:auc_value <- auc(roc_curve)
+1730254963416:# Plot the ROC curve
+1730254963423:plot(roc_curve, main = "ROC Curve for First Half vs. Second Half Classification", col = "blue")
+1730254963439:legend("bottomright", legend = paste("AUC =", round(auc_value, 3)), col = "blue", lwd = 2)
+1730254963452:# Print the AUC value
+1730254963457:print(paste("Area Under the Curve (AUC):", round(auc_value, 3)))
+1730254987362:predicted_probabilities
+1730255012882:View(work_d)
+1730255040095:work_d <- work_d %>%
+1730255040100:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1)) %>%
+1730255040105:select(-Season)
+1730255040130:# Separate the features and target variable
+1730255040135:features <- work_d %>% select(-Season, -Half)  # Exclude Season and Half for training
+1730255055653:work_d <- work_d %>%
+1730255055658:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1)) %>%
+1730255055663:select(-Season)
+1730255062400:label = rbind(
+1730255062405:data.frame(
+1730255062409:Production = 101:126, Season = 1),
+1730255062413:data.frame(
+1730255062416:Production = 127:148, Season = 2),
+1730255062419:data.frame(
+1730255062423:Production = 149:174, Season = 3),
+1730255062426:data.frame(
+1730255062430:Production = 175:200, Season = 4),
+1730255062433:data.frame(
+1730255062436:Production = 201:226, Season = 5),
+1730255062440:data.frame(
+1730255062443:Production = 227:252, Season = 6),
+1730255062447:data.frame(
+1730255062451:Production = 253:277, Season = 7))
+1730255062469:std_devs <- data %>%
+1730255062474:select(-`Episode URL`) %>%
+1730255062479:summarise(across(everything(), sd, na.rm = TRUE))
+1730255062786:std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+1730255062822:top_columns <- std_devs_long %>%
+1730255062829:arrange(desc(StdDev)) %>%
+1730255062835:slice(1:500) %>%
+1730255062841:pull(Column)
+1730255062856:data_top_columns <- data %>%
+1730255062860:select(all_of(top_columns))
+1730255062898:data1 <- data %>%
+1730255062904:mutate(
+1730255062910:EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+1730255062916:) %>%
+1730255062921:mutate(EpisodeNumber = as.numeric(EpisodeNumber))
+1730255062986:label_data <- data1 %>%
+1730255062995:inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+1730255063008:select(Season)
+1730255063047:work_d <- cbind(Season = label_data$Season, data_top_columns)
+1730255063059:set.seed(123)
+1730255063068:model_gbm <- gbm(
+1730255063072:data = work_d,
+1730255063077:formula = Season ~ .,
+1730255063082:distribution = "multinomial",
+1730255063086:n.trees = 100,
+1730255063091:interaction.depth = 3,
+1730255063097:n.minobsinnode = 10,
+1730255063105:shrinkage = 0.1,
+1730255063111:verbose = FALSE
+1730255063118:)
+1730255064498:summary(model_gbm)
+1730255066425:work_d <- work_d %>%
+1730255066430:mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1)) %>%
+1730255066435:select(-Season)
+1730255066455:# Train a GBM model for binary classification (first half vs. second half)
+1730255066461:set.seed(123)
+1730255066470:model_gbm <- gbm(
+1730255066476:formula = Half ~ .,
+1730255066486:data = work_d,
+1730255066491:distribution = "bernoulli",  # Binary classification
+1730255066496:n.trees = 500,               # Number of boosting iterations
+1730255066501:interaction.depth = 3,       # Tree depth
+1730255066506:n.minobsinnode = 10,         # Minimum number of observations in nodes
+1730255066511:shrinkage = 0.01,             # Learning rate
+1730255066517:verbose = FALSE
+1730255066521:)
+1730255067507:# Predict probabilities for the "second_half" class (1)
+1730255067516:predicted_probabilities <- predict(model_gbm, newdata = work_d, n.trees = 100, type = "response")
+1730255067551:# Calculate the ROC curve and AUC
+1730255067557:roc_curve <- roc(work_d$Half, predicted_probabilities)
+1730255067583:auc_value <- auc(roc_curve)
+1730255067607:# Plot the ROC curve
+1730255067612:plot(roc_curve, main = "ROC Curve for First Half vs. Second Half Classification", col = "blue")
+1730255067632:legend("bottomright", legend = paste("AUC =", round(auc_value, 3)), col = "blue", lwd = 2)
+1730255067645:# Print the AUC value
+1730255067651:print(paste("Area Under the Curve (AUC):", round(auc_value, 3)))
+1730255125303:View(work_d)

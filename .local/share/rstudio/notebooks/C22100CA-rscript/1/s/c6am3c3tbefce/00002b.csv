@@ -1,0 +1,1 @@
+"0","legend(""bottomright"", legend = paste(""AUC ="", round(auc_value, 3)), col = ""blue"", lwd = 2)"

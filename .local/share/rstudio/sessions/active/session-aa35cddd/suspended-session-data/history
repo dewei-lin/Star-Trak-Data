@@ -1,0 +1,202 @@
+library(readr)
+data <- read_csv("episode_word_counts.csv")
+View(data)
+View(data)
+library(tidyverse)
+library(readr)
+library(tidyverse)
+data <- read_csv("episode_word_counts.csv")
+long_data <- data %>%
+pivot_longer(cols = -`Episode URL`, names_to = "word", values_to = "count")
+View(long_data)
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- total_counts %>%
+filter(total_count > 1000) %>%
+arrange(desc(total_count))
+View(long_data)
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- counts %>%
+filter(count > 1000) %>%
+arrange(desc(count))
+View(counts)
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(desc(total_count))
+ggplot(filtered_counts, aes(x = reorder(word, total_count), y = total_count)) +
+geom_bar(stat = "identity") +
+coord_flip() +
+labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+x = "Word",
+y = "Total Count") +
+theme_minimal()
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(desc(total_count))
+ggplot(filtered_counts, aes(x = reorder(word, total_count), y = total_count)) +
+geom_bar(stat = "identity") +
+#coord_flip() +
+labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+x = "Word",
+y = "Total Count") +
+theme_minimal()
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(asc(total_count))
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(aesc(total_count))
+# Summarize the total count for each word across all episodes
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+# Filter for words that appear more than 1000 times
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(desc(total_count))  # Order by descending count
+# Plot histogram of word counts
+ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+geom_bar(stat = "identity") +
+labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+x = "Word",
+y = "Total Count") +
+theme_minimal() +
+theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+# Summarize the total count for each word across all episodes
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+# Filter for words that appear more than 1000 times
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(desc(total_count))  # Order by descending count
+# Plot histogram of word counts
+ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+geom_bar(stat = "identity") +
+labs(title = "Word Counts in the Corpus (Words with > 1000 Occurrences)",
+x = "Word",
+y = "Total Count") +
+theme_minimal() +
+theme(axis.text.x = element_text(angle = 90, hjust = 1))  # Rotate x-axis labels
+counts <- long_data %>%
+group_by(word) %>%
+summarize(total_count = sum(count)) %>%
+ungroup()
+filtered_counts <- counts %>%
+filter(total_count > 1000) %>%
+arrange(desc(total_count))
+ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+geom_bar(stat = "identity") +
+labs(title = "Histogram of words count (Words with > 1000 Occurrences)",
+x = "Word",
+y = "Total Count") +
+theme_minimal() +
+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+numeric_data <- episode_counts %>%
+select(-`Episode URL`)
+numeric_data <- data %>%
+select(-`Episode URL`)
+pca_result <- prcomp(numeric_data, scale. = TRUE)
+pca_data <- as.data.frame(pca_result$x[, 1:2])
+colnames(pca_data) <- c("PC1", "PC2")
+# Add episode labels back to the PCA data for context
+#pca_data$Episode_URL <- episode_counts$`Episode URL`
+# Plot the first two principal components
+ggplot(pca_data, aes(x = PC1, y = PC2)) +
+geom_point( alpha = 0.7) +
+labs(title = "PCA of Episode Word Counts",
+x = "Principal Component 1",
+y = "Principal Component 2") +
+theme_minimal() +
+theme(legend.position = "none")  # Hide legend for readability
+pca_data <- pca_data %>%
+mutate(
+Episode_URL = data$`Episode URL`,
+most_frequent_character = character_data$most_frequent_character
+)
+character_data <- data %>%
+select(`Episode URL`, picard, riker, data, troi, worf, crusher)
+# Identify the most frequent character for each episode
+character_data <- character_data %>%
+rowwise() %>%
+mutate(
+most_frequent_character = names(which.max(c_across(picard:crusher)))
+) %>%
+ungroup()
+# Join this character information with the PCA results
+numeric_data <- data %>% select(-`Episode URL`)  # Remove non-numeric column
+pca_result <- prcomp(numeric_data, scale. = TRUE)  # Perform PCA
+pca_data <- as.data.frame(pca_result$x[, 1:2])  # Extract first two principal components
+colnames(pca_data) <- c("PC1", "PC2")
+# Add episode labels and character information to PCA data
+pca_data <- pca_data %>%
+mutate(
+Episode_URL = data$`Episode URL`,
+most_frequent_character = character_data$most_frequent_character
+)
+# Plot PCA with color coding based on most frequent character
+ggplot(pca_data, aes(x = PC1, y = PC2, color = most_frequent_character)) +
+geom_point(alpha = 0.7) +
+labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+x = "Principal Component 1",
+y = "Principal Component 2",
+color = "Most Frequent Character") +
+theme_minimal()
+character_data <- data %>%
+select(`Episode URL`, picard, riker, data, troi, worf, crusher)
+# Identify the most frequent character for each episode
+character_data <- character_data %>%
+rowwise() %>%
+mutate(
+most_frequent_character = names(which.max(c_across(picard:crusher)))
+) %>%
+ungroup()
+# Join this character information with the PCA results
+# Remove the non-numeric column `Episode URL` to prepare for PCA
+numeric_data <- data %>% select(-`Episode URL`)
+# Perform PCA
+pca_result <- prcomp(numeric_data, scale. = TRUE)  # Scaling ensures all variables contribute equally
+pca_data <- as.data.frame(pca_result$x[, 1:2])  # Extract the first two principal components
+colnames(pca_data) <- c("PC1", "PC2")
+# Add episode labels and character information to PCA data
+# Ensure that we correctly add `Episode URL` and `most_frequent_character`
+pca_data <- pca_data %>%
+mutate(
+Episode_URL = data$`Episode URL`,
+most_frequent_character = character_data$most_frequent_character
+)
+# Plot PCA with color coding based on most frequent character
+ggplot(pca_data, aes(x = PC1, y = PC2, color = most_frequent_character)) +
+geom_point(alpha = 0.7) +
+labs(title = "PCA of Episode Word Counts by Most Frequent Character",
+x = "Principal Component 1",
+y = "Principal Component 2",
+color = "Most Frequent Character") +
+theme_minimal()

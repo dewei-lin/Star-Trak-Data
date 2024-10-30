@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>rscript</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="rscript_files/libs/clipboard/clipboard.min.js"></script>
+<script src="rscript_files/libs/quarto-html/quarto.js"></script>
+<script src="rscript_files/libs/quarto-html/popper.min.js"></script>
+<script src="rscript_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="rscript_files/libs/quarto-html/anchor.min.js"></script>
+<link href="rscript_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="rscript_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="rscript_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="rscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="rscript_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">rscript</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="load-the-data" class="level1">
+<h1>Load the Data</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ purrr     1.0.2
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loaded gbm 2.2.2
+This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Type 'citation("pROC")' for a citation.
+
+Attaching package: 'pROC'
+
+The following objects are masked from 'package:stats':
+
+    cov, smooth, var</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"episode_word_counts.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 176 Columns: 3149
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr    (1): Episode URL
+dbl (3148): captains, log, stardate, destination, planet, four, beyond, lies...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="st">`</span><span class="at">Episode URL</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">"word"</span>, <span class="at">values_to =</span> <span class="st">"count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="histogram" class="level1">
+<h1>Histogram</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_count =</span> <span class="fu">sum</span>(count)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>filtered_counts <span class="ot">&lt;-</span> counts <span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(total_count <span class="sc">&gt;</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_count)) </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_counts, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, <span class="sc">-</span>total_count), <span class="at">y =</span> total_count)) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of words count (Words with &gt; 1000 Occurrences)"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Word"</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Total Count"</span>) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="pca" class="level1">
+<h1>PCA</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>numeric_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Episode URL</span><span class="st">`</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(numeric_data, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>pca_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_result<span class="sc">$</span>rotation[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_data, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2)) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Rotation Matrix of PCA"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Principal Component 1"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Principal Component 2"</span>) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)  <span class="co"># Hide legend for readability</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pca_data <span class="ot">&lt;-</span> pca_data <span class="sc">%&gt;%</span>  </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">ifelse</span>(word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"picard"</span>, <span class="st">"riker"</span>, <span class="st">"data"</span>, <span class="st">"troi"</span>, <span class="st">"worf"</span>, <span class="st">"crusher"</span>), word, <span class="st">"other"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_data) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(pca_data, color <span class="sc">==</span> <span class="st">"other"</span>), <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2), <span class="at">color =</span> <span class="st">"grey"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(pca_data, color <span class="sc">!=</span> <span class="st">"other"</span>), <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">color =</span> color), <span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">subset</span>(pca_data, color <span class="sc">!=</span> <span class="st">"other"</span>), <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">4.5</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">stroke =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"picard"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"riker"</span> <span class="ot">=</span> <span class="st">"red"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span> <span class="ot">=</span> <span class="st">"green"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"troi"</span> <span class="ot">=</span> <span class="st">"purple"</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"worf"</span> <span class="ot">=</span> <span class="st">"orange"</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"crusher"</span> <span class="ot">=</span> <span class="st">"brown"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"other"</span> <span class="ot">=</span> <span class="st">"grey"</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Rotation Matrix of PCA with Most Frequent Character Highlighted"</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Principal Component 1"</span>,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Principal Component 2"</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Most Frequent Character"</span>) <span class="sc">+</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Comment: These character names are wildly spreading.</p>
+</section>
+<section id="clustering" class="level1">
+<h1>Clustering</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">clusGap</span>(numeric_data <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(), <span class="cf">function</span>(data, k){</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kmeans</span>(data, k)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>}, <span class="at">K.max =</span> <span class="dv">10</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r, <span class="at">main =</span> <span class="st">"clusGap Statistic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Comment: I will proceed with 6 clusters as Gap Statistic does not improve from 6 to 7.</p>
+<section id="visualization-on-2d" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-on-2d">Visualization on 2D</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PC1"</span>, <span class="st">"PC2"</span>)  </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>cluster_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(x)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>kmeans <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(numeric_data <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(), <span class="dv">6</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>cluster_data<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">factor</span>(kmeans<span class="sc">$</span>cluster)  </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cluster_data, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">color =</span> cluster)) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"2D PCA of Episode Word Counts with 6 Clusters"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Principal Component 1"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Principal Component 2"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Cluster"</span>) <span class="sc">+</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"#E41A1C"</span>,  </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"#377EB8"</span>,  </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"3"</span> <span class="ot">=</span> <span class="st">"#4DAF4A"</span>,  </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"4"</span> <span class="ot">=</span> <span class="st">"#984EA3"</span>,  </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"5"</span> <span class="ot">=</span> <span class="st">"#FF7F00"</span>,  </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"6"</span> <span class="ot">=</span> <span class="st">"#FFFF33"</span>   </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ada-boost-classifier" class="level1">
+<h1>Ada-boost Classifier</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>label <span class="ot">=</span> <span class="fu">rbind</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">101</span><span class="sc">:</span><span class="dv">126</span>, <span class="at">Season =</span> <span class="dv">1</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">127</span><span class="sc">:</span><span class="dv">148</span>, <span class="at">Season =</span> <span class="dv">2</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">149</span><span class="sc">:</span><span class="dv">174</span>, <span class="at">Season =</span> <span class="dv">3</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">175</span><span class="sc">:</span><span class="dv">200</span>, <span class="at">Season =</span> <span class="dv">4</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">201</span><span class="sc">:</span><span class="dv">226</span>, <span class="at">Season =</span> <span class="dv">5</span>),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">227</span><span class="sc">:</span><span class="dv">252</span>, <span class="at">Season =</span> <span class="dv">6</span>),</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Production =</span> <span class="dv">253</span><span class="sc">:</span><span class="dv">277</span>, <span class="at">Season =</span> <span class="dv">7</span>))</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>std_devs <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Episode URL</span><span class="st">`</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), sd, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `summarise()`.
+ℹ In argument: `across(everything(), sd, na.rm = TRUE)`.
+Caused by warning:
+! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+Supply arguments directly to `.fns` through an anonymous function instead.
+
+  # Previously
+  across(a:b, mean, na.rm = TRUE)
+
+  # Now
+  across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>std_devs_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(std_devs, <span class="at">cols =</span> <span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"Column"</span>, <span class="at">values_to =</span> <span class="st">"StdDev"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>top_columns <span class="ot">&lt;-</span> std_devs_long <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(StdDev)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Column) </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>data_top_columns <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(top_columns))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">EpisodeNumber =</span> <span class="fu">str_extract</span>(<span class="st">`</span><span class="at">Episode URL</span><span class="st">`</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EpisodeNumber =</span> <span class="fu">as.numeric</span>(EpisodeNumber))  </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>label_data <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(label <span class="sc">%&gt;%</span> <span class="fu">select</span>(Production, Season), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"EpisodeNumber"</span> <span class="ot">=</span> <span class="st">"Production"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Season)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>work_d <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Season =</span> label_data<span class="sc">$</span>Season, data_top_columns)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>model_gbm <span class="ot">&lt;-</span> <span class="fu">gbm</span>(</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> work_d,</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> Season <span class="sc">~</span> .,  </span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="st">"multinomial"</span>,  </span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.trees =</span> <span class="dv">100</span>,                </span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">interaction.depth =</span> <span class="dv">3</span>,         </span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.minobsinnode =</span> <span class="dv">10</span>,         </span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">shrinkage =</span> <span class="fl">0.1</span>,            </span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Setting `distribution = "multinomial"` is ill-advised as it is
+currently broken. It exists only for backwards compatibility. Use at your own
+risk.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_gbm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      var      rel.inf
+pulaski           pulaski 1.072084e+01
+tasha               tasha 7.857691e+00
+wesley             wesley 3.949912e+00
+right               right 2.245034e+00
+picard             picard 2.238081e+00
+crusher           crusher 1.918333e+00
+plasma             plasma 1.816747e+00
+leave               leave 1.668151e+00
+like                 like 1.575747e+00
+seconds           seconds 1.413609e+00
+think               think 1.360373e+00
+bridge             bridge 1.307941e+00
+much                 much 1.244876e+00
+computer         computer 1.241411e+00
+captain           captain 1.218555e+00
+point               point 1.196238e+00
+riker               riker 1.136773e+00
+four                 four 1.134209e+00
+one                   one 1.126988e+00
+whats               whats 1.121252e+00
+worf                 worf 1.107241e+00
+number             number 1.090722e+00
+sir                   sir 1.086096e+00
+obrien             obrien 1.079729e+00
+twenty             twenty 1.059430e+00
+thank               thank 1.046841e+00
+stop                 stop 9.713105e-01
+little             little 9.596654e-01
+know                 know 9.435825e-01
+lets                 lets 9.372903e-01
+woman               woman 8.676467e-01
+believe           believe 8.341097e-01
+please             please 8.193427e-01
+corridor         corridor 7.932717e-01
+said                 said 7.875685e-01
+lieutenant     lieutenant 7.280222e-01
+sure                 sure 6.992400e-01
+way                   way 6.979089e-01
+take                 take 6.312595e-01
+time                 time 6.241880e-01
+want                 want 6.150932e-01
+us                     us 6.114671e-01
+station           station 6.036852e-01
+ship                 ship 5.978710e-01
+new                   new 5.947988e-01
+fire                 fire 5.685322e-01
+going               going 5.669336e-01
+viewscreen     viewscreen 5.509513e-01
+data                 data 5.494244e-01
+three               three 5.457590e-01
+life                 life 5.409649e-01
+could               could 5.264215e-01
+yar                   yar 5.233181e-01
+let                   let 5.179340e-01
+cant                 cant 5.141303e-01
+maybe               maybe 5.111110e-01
+long                 long 4.922640e-01
+sensors           sensors 4.878208e-01
+mister             mister 4.812994e-01
+beam                 beam 4.783084e-01
+ago                   ago 4.679683e-01
+human               human 4.653001e-01
+family             family 4.624902e-01
+must                 must 4.455675e-01
+perhaps           perhaps 4.410919e-01
+aye                   aye 4.296584e-01
+field               field 4.291889e-01
+tell                 tell 4.193754e-01
+command           command 4.160125e-01
+yes                   yes 4.129612e-01
+father             father 4.021884e-01
+back                 back 3.954364e-01
+percent           percent 3.884872e-01
+able                 able 3.859998e-01
+room                 room 3.855768e-01
+subspace         subspace 3.708082e-01
+laforge           laforge 3.691116e-01
+two                   two 3.676523e-01
+happened         happened 3.628065e-01
+systems           systems 3.579939e-01
+quarters         quarters 3.542379e-01
+find                 find 3.528388e-01
+understand     understand 3.486326e-01
+ill                   ill 3.480897e-01
+might               might 3.401080e-01
+jeanluc           jeanluc 3.294826e-01
+sorry               sorry 3.270439e-01
+guinan             guinan 3.131532e-01
+need                 need 3.075325e-01
+radiation       radiation 3.044306e-01
+anything         anything 3.024437e-01
+people             people 2.931943e-01
+go                     go 2.885362e-01
+crew                 crew 2.773859e-01
+come                 come 2.691458e-01
+forward           forward 2.661466e-01
+enterprise     enterprise 2.656484e-01
+may                   may 2.655412e-01
+ready               ready 2.607930e-01
+transporter   transporter 2.508523e-01
+never               never 2.471256e-01
+id                     id 2.466696e-01
+ensign             ensign 2.447215e-01
+ten                   ten 2.421749e-01
+system             system 2.380803e-01
+sickbay           sickbay 2.353573e-01
+get                   get 2.336829e-01
+holodeck         holodeck 2.179501e-01
+got                   got 2.139588e-01
+planet             planet 2.121772e-01
+ive                   ive 2.058233e-01
+log                   log 1.990600e-01
+help                 help 1.941688e-01
+really             really 1.927508e-01
+found               found 1.900714e-01
+troi                 troi 1.838859e-01
+aboard             aboard 1.829403e-01
+admiral           admiral 1.683873e-01
+home                 home 1.628849e-01
+brother           brother 1.623208e-01
+im                     im 1.604987e-01
+something       something 1.597355e-01
+surface           surface 1.537976e-01
+well                 well 1.518209e-01
+report             report 1.483805e-01
+real                 real 1.482060e-01
+programme       programme 1.445837e-01
+romulan           romulan 1.430170e-01
+neutral           neutral 1.388624e-01
+boy                   boy 1.318345e-01
+transport       transport 1.258381e-01
+medical           medical 1.240333e-01
+hundred           hundred 1.228950e-01
+away                 away 1.199926e-01
+youre               youre 1.178420e-01
+say                   say 1.136539e-01
+thought           thought 1.113600e-01
+federation     federation 1.079819e-01
+thats               thats 1.062108e-01
+vessel             vessel 1.054608e-01
+alien               alien 1.016139e-01
+core                 core 9.886666e-02
+good                 good 9.805374e-02
+course             course 9.690552e-02
+ambassador     ambassador 9.469663e-02
+see                   see 8.320160e-02
+ogawa               ogawa 7.736287e-02
+oh                     oh 7.721618e-02
+still               still 7.532366e-02
+man                   man 7.445080e-02
+youve               youve 7.389642e-02
+hes                   hes 7.372651e-02
+years               years 7.354399e-02
+theres             theres 7.354131e-02
+starfleet       starfleet 7.211099e-02
+hours               hours 6.754422e-02
+shes                 shes 6.744009e-02
+shuttlecraft shuttlecraft 6.540683e-02
+bay                   bay 6.456955e-02
+mission           mission 5.787478e-02
+shields           shields 5.587684e-02
+warp                 warp 5.516281e-02
+look                 look 5.012708e-02
+old                   old 4.956413e-02
+dont                 dont 4.866119e-02
+power               power 4.806823e-02
+theyre             theyre 4.697968e-02
+past                 past 4.658108e-02
+mother             mother 4.642877e-02
+energy             energy 4.610514e-02
+space               space 4.451245e-02
+doctor             doctor 4.422031e-02
+remember         remember 4.350386e-02
+entity             entity 4.218457e-02
+seven               seven 4.137659e-02
+oc                     oc 4.077051e-02
+chief               chief 3.954280e-02
+geordi             geordi 3.543746e-02
+commander       commander 2.989507e-02
+future             future 2.896066e-02
+starbase         starbase 2.821809e-02
+five                 five 2.410326e-02
+klingon           klingon 2.374818e-02
+datas               datas 1.992897e-02
+children         children 1.893874e-02
+monitor           monitor 1.876330e-02
+would               would 1.765844e-02
+team                 team 1.718571e-02
+cargo               cargo 1.645337e-02
+work                 work 1.505764e-02
+cardassian     cardassian 1.460221e-02
+laboratory     laboratory 1.413861e-02
+first               first 1.346288e-02
+alexander       alexander 1.280313e-02
+didnt               didnt 1.267864e-02
+wave                 wave 1.140491e-02
+war                   war 1.131564e-02
+ships               ships 9.469174e-03
+weve                 weve 7.948478e-03
+counsellor     counsellor 6.372825e-03
+zero                 zero 6.345598e-03
+shield             shield 6.140943e-03
+water               water 5.288364e-03
+deanna             deanna 5.248097e-03
+control           control 4.512756e-03
+son                   son 3.114608e-03
+engines           engines 3.053645e-03
+la                     la 2.337090e-03
+beverly           beverly 2.336461e-03
+zone                 zone 1.617275e-03
+security         security 1.615603e-03
+council           council 1.086256e-03
+engineering   engineering 9.985553e-04
+probe               probe 9.359893e-04
+colony             colony 8.249993e-04
+guy                   guy 7.212101e-04
+particle         particle 6.347742e-04
+shuttle           shuttle 4.156786e-04
+`2`                   `2` 1.808159e-04
+nothing           nothing 1.731678e-04
+ferengi           ferengi 1.407484e-04
+lab                   lab 1.351739e-04
+engine             engine 9.691941e-05
+forge               forge 4.742921e-05
+vulcan             vulcan 1.346038e-05
+q                       q 0.000000e+00
+barclay           barclay 0.000000e+00
+lwaxana           lwaxana 0.000000e+00
+ro                     ro 0.000000e+00
+borg                 borg 0.000000e+00
+vash                 vash 0.000000e+00
+clara               clara 0.000000e+00
+lal                   lal 0.000000e+00
+amanda             amanda 0.000000e+00
+jameson           jameson 0.000000e+00
+kehleyr           kehleyr 0.000000e+00
+moriarty         moriarty 0.000000e+00
+jr                     jr 0.000000e+00
+salia               salia 0.000000e+00
+soren               soren 0.000000e+00
+scott               scott 0.000000e+00
+kahless           kahless 0.000000e+00
+lore                 lore 0.000000e+00
+ardra               ardra 0.000000e+00
+timicin           timicin 0.000000e+00
+rasmussen       rasmussen 0.000000e+00
+okona               okona 0.000000e+00
+timothy           timothy 0.000000e+00
+kamala             kamala 0.000000e+00
+spock               spock 0.000000e+00
+armus               armus 0.000000e+00
+alkar               alkar 0.000000e+00
+jono                 jono 0.000000e+00
+gowron             gowron 0.000000e+00
+nella               nella 0.000000e+00
+jellico           jellico 0.000000e+00
+leah                 leah 0.000000e+00
+jason               jason 0.000000e+00
+marr                 marr 0.000000e+00
+shelby             shelby 0.000000e+00
+conor               conor 0.000000e+00
+fajo                 fajo 0.000000e+00
+sarek               sarek 0.000000e+00
+tam                   tam 0.000000e+00
+juliana           juliana 0.000000e+00
+isabella         isabella 0.000000e+00
+ishara             ishara 0.000000e+00
+john                 john 0.000000e+00
+farallon         farallon 0.000000e+00
+satie               satie 0.000000e+00
+tjon                 tjon 0.000000e+00
+kyle                 kyle 0.000000e+00
+kmtar               kmtar 0.000000e+00
+clemens           clemens 0.000000e+00
+ral                   ral 0.000000e+00
+lutan               lutan 0.000000e+00
+jeremy             jeremy 0.000000e+00
+pressman         pressman 0.000000e+00
+nikolai           nikolai 0.000000e+00
+jenna               jenna 0.000000e+00
+susanna           susanna 0.000000e+00
+apgar               apgar 0.000000e+00
+anna                 anna 0.000000e+00
+baran               baran 0.000000e+00
+hannah             hannah 0.000000e+00
+beata               beata 0.000000e+00
+karnas             karnas 0.000000e+00
+toreth             toreth 0.000000e+00
+duras               duras 0.000000e+00
+kurn                 kurn 0.000000e+00
+sito                 sito 0.000000e+00
+finn                 finn 0.000000e+00
+anya                 anya 0.000000e+00
+jev                   jev 0.000000e+00
+remmick           remmick 0.000000e+00
+stubbs             stubbs 0.000000e+00
+lavelle           lavelle 0.000000e+00
+soong               soong 0.000000e+00
+eline               eline 0.000000e+00
+madred             madred 0.000000e+00
+yuta                 yuta 0.000000e+00
+tog                   tog 0.000000e+00
+aquiel             aquiel 0.000000e+00
+korris             korris 0.000000e+00
+liko                 liko 0.000000e+00
+robin               robin 0.000000e+00
+radue               radue 0.000000e+00
+nuria               nuria 0.000000e+00
+kevin               kevin 0.000000e+00
+bok                   bok 0.000000e+00
+wyatt               wyatt 0.000000e+00
+dirgo               dirgo 0.000000e+00
+nvek                 nvek 0.000000e+00
+odan                 odan 0.000000e+00
+dathon             dathon 0.000000e+00
+kelsey             kelsey 0.000000e+00
+ronin               ronin 0.000000e+00
+kargan             kargan 0.000000e+00
+maxwell           maxwell 0.000000e+00
+traveller       traveller 0.000000e+00
+tallera           tallera 0.000000e+00
+anomaly           anomaly 0.000000e+00
+russell           russell 0.000000e+00
+sheliak           sheliak 0.000000e+00
+kolrami           kolrami 0.000000e+00
+mirasta           mirasta 0.000000e+00
+gia                   gia 0.000000e+00
+maddox             maddox 0.000000e+00
+durken             durken 0.000000e+00
+tholl               tholl 0.000000e+00
+kosinski         kosinski 0.000000e+00
+grebnedlog     grebnedlog 0.000000e+00
+manua               manua 0.000000e+00
+batai               batai 0.000000e+00
+jenice             jenice 0.000000e+00
+locarno           locarno 0.000000e+00
+robert             robert 0.000000e+00
+graves             graves 0.000000e+00
+rishon             rishon 0.000000e+00
+marouk             marouk 0.000000e+00
+quinn               quinn 0.000000e+00
+keiko               keiko 0.000000e+00
+zorn                 zorn 0.000000e+00
+bochra             bochra 0.000000e+00
+roga                 roga 0.000000e+00
+garvin             garvin 0.000000e+00
+brull               brull 0.000000e+00
+bael                 bael 0.000000e+00
+tomalak           tomalak 0.000000e+00
+mandl               mandl 0.000000e+00
+reyga               reyga 0.000000e+00
+maques             maques 0.000000e+00
+endar               endar 0.000000e+00
+manheim           manheim 0.000000e+00
+minuet             minuet 0.000000e+00
+phillipa         phillipa 0.000000e+00
+setal               setal 0.000000e+00
+haftel             haftel 0.000000e+00
+macduff           macduff 0.000000e+00
+macet               macet 0.000000e+00
+jared               jared 0.000000e+00
+granger           granger 0.000000e+00
+gosheven         gosheven 0.000000e+00
+sovak               sovak 0.000000e+00
+tarses             tarses 0.000000e+00
+corey               corey 0.000000e+00
+galen               galen 0.000000e+00
+perrin             perrin 0.000000e+00
+texas               texas 0.000000e+00
+kennelly         kennelly 0.000000e+00
+countess         countess 0.000000e+00
+taurik             taurik 0.000000e+00
+danilo             danilo 0.000000e+00
+krag                 krag 0.000000e+00
+castillo         castillo 0.000000e+00
+taitt               taitt 0.000000e+00
+romulans         romulans 0.000000e+00
+ralph               ralph 0.000000e+00
+riva                 riva 0.000000e+00
+garrett           garrett 0.000000e+00
+kell                 kell 0.000000e+00
+mauric             mauric 0.000000e+00
+toq                   toq 0.000000e+00
+krola               krola 0.000000e+00
+darmok             darmok 0.000000e+00
+holmes             holmes 0.000000e+00
+professor       professor 0.000000e+00
+stargazer       stargazer 0.000000e+00
+bellboy           bellboy 0.000000e+00
+ardrian           ardrian 0.000000e+00
+talur               talur 0.000000e+00
+sobi                 sobi 0.000000e+00
+chorgan           chorgan 0.000000e+00
+make                 make 0.000000e+00
+hugh                 hugh 0.000000e+00
+mendon             mendon 0.000000e+00
+briam               briam 0.000000e+00
+koroth             koroth 0.000000e+00
+hathaway         hathaway 0.000000e+00
+esoqq               esoqq 0.000000e+00
+exocomp           exocomp 0.000000e+00
+tokath             tokath 0.000000e+00
+kmpec               kmpec 0.000000e+00
+jake                 jake 0.000000e+00
+marta               marta 0.000000e+00
+redblock         redblock 0.000000e+00
+tarmin             tarmin 0.000000e+00
+macias             macias 0.000000e+00
+ian                   ian 0.000000e+00
+ben                   ben 0.000000e+00
+marla               marla 0.000000e+00
+sela                 sela 0.000000e+00
+rivan               rivan 0.000000e+00
+harry               harry 0.000000e+00
+voval               voval 0.000000e+00
+rabal               rabal 0.000000e+00
+kalita             kalita 0.000000e+00
+klag                 klag 0.000000e+00
+officer           officer 0.000000e+00
+pardek             pardek 0.000000e+00
+brand               brand 0.000000e+00
+tpel                 tpel 0.000000e+00
+sarjenka         sarjenka 0.000000e+00
+goss                 goss 0.000000e+00
+sutter             sutter 0.000000e+00
+syrus               syrus 0.000000e+00
+byleth             byleth 0.000000e+00
+cardassians   cardassians 0.000000e+00
+sonny               sonny 0.000000e+00
+anne                 anne 0.000000e+00
+ramsey             ramsey 0.000000e+00
+langor             langor 0.000000e+00
+sergey             sergey 0.000000e+00
+marie               marie 0.000000e+00
+sabin               sabin 0.000000e+00
+wormhole         wormhole 0.000000e+00
+game                 game 0.000000e+00
+reg                   reg 0.000000e+00
+scholar           scholar 0.000000e+00
+lantree           lantree 0.000000e+00
+kareen             kareen 0.000000e+00
+oji                   oji 0.000000e+00
+danar               danar 0.000000e+00
+alexana           alexana 0.000000e+00
+vorin               vorin 0.000000e+00
+martin             martin 0.000000e+00
+ethan               ethan 0.000000e+00
+kingsley         kingsley 0.000000e+00
+exocomps         exocomps 0.000000e+00
+prytt               prytt 0.000000e+00
+interface       interface 0.000000e+00
+yamato             yamato 0.000000e+00
+helena             helena 0.000000e+00
+chancellor     chancellor 0.000000e+00
+nayrok             nayrok 0.000000e+00
+vagh                 vagh 0.000000e+00
+raman               raman 0.000000e+00
+masaka             masaka 0.000000e+00
+klingons         klingons 0.000000e+00
+betor               betor 0.000000e+00
+brenna             brenna 0.000000e+00
+conductor       conductor 0.000000e+00
+liator             liator 0.000000e+00
+yareena           yareena 0.000000e+00
+leech               leech 0.000000e+00
+varria             varria 0.000000e+00
+berel               berel 0.000000e+00
+jobril             jobril 0.000000e+00
+lursa               lursa 0.000000e+00
+portal             portal 0.000000e+00
+romas               romas 0.000000e+00
+haro                 haro 0.000000e+00
+hobson             hobson 0.000000e+00
+bashir             bashir 0.000000e+00
+orton               orton 0.000000e+00
+loquel             loquel 0.000000e+00
+hedril             hedril 0.000000e+00
+santos             santos 0.000000e+00
+sonya               sonya 0.000000e+00
+rift                 rift 0.000000e+00
+phoenix           phoenix 0.000000e+00
+rashella         rashella 0.000000e+00
+tamarian         tamarian 0.000000e+00
+brossmer         brossmer 0.000000e+00
+deseve             deseve 0.000000e+00
+hutch               hutch 0.000000e+00
+nudaq               nudaq 0.000000e+00
+dataihat         dataihat 0.000000e+00
+maquis             maquis 0.000000e+00
+moon                 moon 0.000000e+00
+quantum           quantum 0.000000e+00
+lemec               lemec 0.000000e+00
+distortion     distortion 0.000000e+00
+tin                   tin 0.000000e+00
+clerk               clerk 0.000000e+00
+tarr                 tarr 0.000000e+00
+mordock           mordock 0.000000e+00
+debin               debin 0.000000e+00
+rana                 rana 0.000000e+00
+dokachin         dokachin 0.000000e+00</code></pre>
+</div>
+</div>
+<p>Comment: The important features are pulaski, tasha, wesley, right, picard, crusher, etc.</p>
+<section id="use-binary-labels" class="level2">
+<h2 class="anchored" data-anchor-id="use-binary-labels">Use Binary Labels:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>work_d <span class="ot">&lt;-</span> work_d <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Half =</span> <span class="fu">ifelse</span>(Season <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Season)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>model_gbm <span class="ot">&lt;-</span> <span class="fu">gbm</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> Half <span class="sc">~</span> .,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> work_d,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="st">"bernoulli"</span>, </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.trees =</span> <span class="dv">500</span>,               </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">interaction.depth =</span> <span class="dv">3</span>,       </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.minobsinnode =</span> <span class="dv">10</span>,       </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">shrinkage =</span> <span class="fl">0.01</span>,             </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>predicted_probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_gbm, <span class="at">newdata =</span> work_d, <span class="at">n.trees =</span> <span class="dv">100</span>, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>roc_curve <span class="ot">&lt;-</span> <span class="fu">roc</span>(work_d<span class="sc">$</span>Half, predicted_probabilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = 0, case = 1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting direction: controls &lt; cases</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>auc_value <span class="ot">&lt;-</span> <span class="fu">auc</span>(roc_curve)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_curve, <span class="at">main =</span> <span class="st">"ROC Curve for First Half vs. Second Half Classification"</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">legend =</span> <span class="fu">paste</span>(<span class="st">"AUC ="</span>, <span class="fu">round</span>(auc_value, <span class="dv">3</span>)), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="rscript_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Comment: AUC = 0.977, the model is performing very well.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,235 @@
+---
+title: "rscript"
+format: html
+editor: visual
+---
+
+# Load the Data
+
+```{r}
+library(readr)
+library(tidyverse)
+library(gbm)
+library(pROC)
+library(stringr)
+data <- read_csv("episode_word_counts.csv")
+long_data <- data %>%
+  pivot_longer(cols = -`Episode URL`, names_to = "word", values_to = "count")
+```
+
+# Histogram
+
+```{r}
+
+counts <- long_data %>%
+  group_by(word) %>%
+  summarize(total_count = sum(count)) %>%
+  ungroup()
+
+
+filtered_counts <- counts %>%
+  filter(total_count > 1000) %>%
+  arrange(desc(total_count)) 
+
+
+ggplot(filtered_counts, aes(x = reorder(word, -total_count), y = total_count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Histogram of words count (Words with > 1000 Occurrences)",
+       x = "Word",
+       y = "Total Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+
+```
+
+# PCA
+
+```{r}
+
+numeric_data <- data %>%
+  select(-`Episode URL`)
+pca_result <- prcomp(numeric_data, scale. = TRUE)
+
+
+pca_data <- as.data.frame(pca_result$rotation[,1:2])
+
+
+ggplot(pca_data, aes(x = PC1, y = PC2)) +
+  geom_point( alpha = 0.7) +
+  labs(title = "Rotation Matrix of PCA",
+       x = "Principal Component 1",
+       y = "Principal Component 2") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Hide legend for readability
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+pca_data <- pca_data %>%  
+  rownames_to_column(var = "word") %>% 
+  mutate(
+    color = ifelse(word %in% c("picard", "riker", "data", "troi", "worf", "crusher"), word, "other")
+  )
+
+ggplot(pca_data) +
+  geom_point(data = subset(pca_data, color == "other"), aes(x = PC1, y = PC2), color = "grey", size = 2, alpha = 0.4) +
+  geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2, color = color), size = 4, alpha = 0.9) +
+  geom_point(data = subset(pca_data, color != "other"), aes(x = PC1, y = PC2), color = "black", size = 4.5, shape = 21, stroke = 1.2) +
+  
+  scale_color_manual(values = c(
+    "picard" = "blue",
+    "riker" = "red",
+    "data" = "green",
+    "troi" = "purple",
+    "worf" = "orange",
+    "crusher" = "brown",
+    "other" = "grey"
+  )) +
+  labs(title = "Rotation Matrix of PCA with Most Frequent Character Highlighted",
+       x = "Principal Component 1",
+       y = "Principal Component 2",
+       color = "Most Frequent Character") +
+  theme_minimal()
+
+
+```
+
+Comment: These character names are wildly spreading.
+
+# Clustering
+
+```{r}
+library(cluster)
+r <- clusGap(numeric_data %>% as.matrix(), function(data, k){
+  kmeans(data, k)
+}, K.max = 10)
+plot(r, main = "clusGap Statistic")
+```
+
+Comment: I will proceed with 6 clusters as Gap Statistic does not improve from 6 to 7.
+
+## Visualization on 2D
+
+```{r}
+x <- pca_result$x[, 1:2]
+colnames(x) <- c("PC1", "PC2")  
+cluster_data <- as.data.frame(x)
+kmeans <- kmeans(numeric_data %>% as.matrix(), 6)
+cluster_data$cluster <- factor(kmeans$cluster)  
+
+
+ggplot(cluster_data, aes(x = PC1, y = PC2, color = cluster)) +
+  geom_point(size = 3, alpha = 0.7) +
+  labs(title = "2D PCA of Episode Word Counts with 6 Clusters",
+       x = "Principal Component 1",
+       y = "Principal Component 2",
+       color = "Cluster") +
+  theme_minimal() +
+  scale_color_manual(values = c(
+    "1" = "#E41A1C",  
+    "2" = "#377EB8",  
+    "3" = "#4DAF4A",  
+    "4" = "#984EA3",  
+    "5" = "#FF7F00",  
+    "6" = "#FFFF33"   
+  ))
+```
+
+# Ada-boost Classifier
+
+```{r}
+label = rbind(
+  data.frame(
+  Production = 101:126, Season = 1),
+  data.frame(
+  Production = 127:148, Season = 2),
+  data.frame(
+  Production = 149:174, Season = 3),
+  data.frame(
+  Production = 175:200, Season = 4),
+  data.frame(
+  Production = 201:226, Season = 5),
+  data.frame(
+  Production = 227:252, Season = 6),
+  data.frame(
+  Production = 253:277, Season = 7))
+
+std_devs <- data %>%
+  select(-`Episode URL`) %>%  
+  summarise(across(everything(), sd, na.rm = TRUE))  
+
+std_devs_long <- pivot_longer(std_devs, cols = everything(), names_to = "Column", values_to = "StdDev")
+
+top_columns <- std_devs_long %>%
+  arrange(desc(StdDev)) %>%
+  slice(1:500) %>%  
+  pull(Column) 
+data_top_columns <- data %>%
+  select(all_of(top_columns))
+
+
+
+data1 <- data %>%
+  mutate(
+    EpisodeNumber = str_extract(`Episode URL`, "\\d+")
+  ) %>%
+  mutate(EpisodeNumber = as.numeric(EpisodeNumber))  
+
+label_data <- data1 %>%
+  inner_join(label %>% select(Production, Season), by = c("EpisodeNumber" = "Production")) %>%
+  select(Season)
+
+
+work_d <- cbind(Season = label_data$Season, data_top_columns)
+set.seed(123)
+model_gbm <- gbm(
+  data = work_d,
+  formula = Season ~ .,  
+  distribution = "multinomial",  
+  n.trees = 100,                
+  interaction.depth = 3,         
+  n.minobsinnode = 10,         
+  shrinkage = 0.1,            
+  verbose = FALSE
+)
+summary(model_gbm)
+```
+
+Comment: The important features are pulaski, tasha, wesley, right, picard, crusher, etc.
+
+## Use Binary Labels:
+
+```{r}
+work_d <- work_d %>%
+  mutate(Half = ifelse(Season %in% c(1, 2, 3), 0, 1)) %>%
+  select(-Season)
+
+set.seed(123)
+model_gbm <- gbm(
+  formula = Half ~ .,
+  data = work_d,
+  distribution = "bernoulli", 
+  n.trees = 500,               
+  interaction.depth = 3,       
+  n.minobsinnode = 10,       
+  shrinkage = 0.01,             
+  verbose = FALSE
+)
+
+
+predicted_probabilities <- predict(model_gbm, newdata = work_d, n.trees = 100, type = "response")
+
+
+roc_curve <- roc(work_d$Half, predicted_probabilities)
+auc_value <- auc(roc_curve)
+
+
+plot(roc_curve, main = "ROC Curve for First Half vs. Second Half Classification", col = "blue")
+legend("bottomright", legend = paste("AUC =", round(auc_value, 3)), col = "blue", lwd = 2)
+
+
+```
+
+Comment: AUC = 0.977, the model is performing very well.
