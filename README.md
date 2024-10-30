@@ -1,6 +1,6 @@
 # Star-Trek-Data
 
-'''
+'''{python}
 import os
 import time
 import random
