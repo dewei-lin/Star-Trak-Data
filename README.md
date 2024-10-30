@@ -1,4 +1,4 @@
-# Star-Trek-Data
+# Explaning Py Code
 
 ```{python}
 import os
@@ -225,3 +225,36 @@ write_word_counts_to_csv(word_count_vectors, filtered_words)
 
 print(f"Word counts written to 'episode_word_counts.csv'")
 ```
+# R code and the output
+
+Please download and read [R output HTML](https://github.com/dewei-lin/Star-Trak-Data/blob/main/rscript.html);
+
+# Pandas output
+
+```{ipynb}
+import pandas as pd
+
+data = pd.read_csv("episode_word_counts.csv")
+
+
+row_count = len(data)
+print(f"Total number of rows: {row_count}")
+
+
+data['row_sum'] = data.select_dtypes(include='number').sum(axis=1)
+
+
+data_filtered = data[data['row_sum'] >= 100]
+
+
+data_filtered = data_filtered.drop(columns=['row_sum'])  
+data_filtered.to_csv("filtered_episode_word_counts.csv", index=False)
+
+print("Filtered data saved to 'filtered_episode_word_counts.csv'")
+```
+Output:
+```plaintext
+Total number of rows: 176
+Filtered data saved to 'filtered_episode_word_counts.csv'
+```
+See the code in [pdscript.ipynb](https://github.com/dewei-lin/Star-Trak-Data/blob/main/pdscript.ipynb) and the output csv in [filtered_episode_word_counts.csv](https://github.com/dewei-lin/Star-Trak-Data/blob/main/filtered_episode_word_counts.csv).
