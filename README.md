@@ -32,6 +32,7 @@ def md5_hash(url):
     """Returns the MD5 hash of a given URL."""
     return hashlib.md5(url.encode()).hexdigest()
 ```
+This function takes an url and returns a numeric value linked to url, my intuition is that it makes the data for url shorter when we store it.
 
 ```{python}
 def cache_path(url):
@@ -39,6 +40,7 @@ def cache_path(url):
     return os.path.join(CACHE_DIR, md5_hash(url))
 ```
 
+This function stores the encoded url in our cache directory, making it more efficient to sort the urls.
 
 ```{python}
 def fetch_raw(url):
@@ -64,6 +66,7 @@ def fetch_raw(url):
         return None
 ```
 
+This function fetches HTML web page contents for the given URL with a delay between two fetching.
 
 ```{python}
 def fetch(url):
@@ -86,6 +89,7 @@ def fetch(url):
         return None
 ```
 
+The function operates under the condition whether the page is cached. If it's cached, it will red the HTML and extract the text from the web page with Beatuifulsoup; If it's not cached, the function will cache it and use raw fetch function above and fetch the data.
 
 ```{python}
 def episode_list_urls():
@@ -98,7 +102,7 @@ def episode_list_urls():
             urls.append(f"http://www.chakoteya.net/NextGen/{anchor.attrs['href']}")
     return urls
 ```
-
+The function stores all the urls in source_url into a list.
 
 ```{python}
 def tokenize_and_count(text):
@@ -117,7 +121,7 @@ def tokenize_and_count(text):
 
     return word_counts
 ```
-
+This function tokenizes the text and count the frequencies of each word that appeared in the text.
 
 ```{python}
 def get_text_of_episodes():
@@ -138,7 +142,7 @@ def get_text_of_episodes():
 
     return episodes
 ```
-
+The function utilizes the urls list obtained from the episode_list_urls() and create a dictionary that has the url and texts scrapped from the url.
 
 ```{python}
 def get_word_counts_for_episodes(episodes):
@@ -169,7 +173,7 @@ def get_total_word_count(episode_word_counts):
 
     return total_word_count
 ```
-
+The function takes the dictionary that contains url and the associated test, and calculate the frequencies of each word in each url (the episode)
 
 ```{python}
 def convert_to_word_count_vectors(episode_word_counts, filtered_words):
@@ -183,7 +187,7 @@ def convert_to_word_count_vectors(episode_word_counts, filtered_words):
 
     return word_vectors
 ```
-
+This function transforms the dictionary into a data frame that the first column is url and rest columns are the words, rows are the frequencies.
 
 ```{python}
 def write_word_counts_to_csv(word_count_vectors, filtered_words, filename="episode_word_counts.csv"):
@@ -200,7 +204,7 @@ def write_word_counts_to_csv(word_count_vectors, filtered_words, filename="episo
             row = [url] + vector
             writer.writerow(row)
 ```
-
+This function writes out the csv file for further analysis.
 
 ```{python}
 # Example usage to fetch episode texts, get word counts, and calculate total word count
