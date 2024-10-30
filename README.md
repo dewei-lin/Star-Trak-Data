@@ -1,6 +1,6 @@
 # Star-Trek-Data
 
-'''{python}
+```{python}
 import os
 import time
 import random
@@ -25,4 +25,4 @@ CACHE_DIR = "page_cache"
 # Create the cache directory if it doesn't exist
 if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
-'''
+```
